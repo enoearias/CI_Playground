@@ -1,8 +1,22 @@
 {
   "schema": 1,
   "repo": "enoearias/CI_Playground",
-  "sha": "b7735e00323503bdafab4bc2cdff5a07842c5103",
+  "sha": "992d468d59cf92b3eb7494ebdfd694a52ffed9bb",
   "revisions": [
+    {
+      "sha": "992d468d59cf92b3eb7494ebdfd694a52ffed9bb",
+      "short": "992d468",
+      "message": "Merge pull request #1 from enoearias/labview-ci/reconfigure-28052506067",
+      "author": "Enrique Noe Arias",
+      "date": "2026-06-23T20:07:17Z"
+    },
+    {
+      "sha": "47df66ffae52b1dfa19aeed803428c8e42a8ad88",
+      "short": "47df66f",
+      "message": "ci: reconfigure LabVIEW CI settings",
+      "author": "github-actions[bot]",
+      "date": "2026-06-23T19:47:16Z"
+    },
     {
       "sha": "b7735e00323503bdafab4bc2cdff5a07842c5103",
       "short": "b7735e0",
@@ -33,7 +47,7 @@
     }
   ],
   "config": {
-    "use": "",
+    "use": "latest",
     "actions": {},
     "vipc": []
   },
