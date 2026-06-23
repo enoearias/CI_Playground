@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "platform": "linux",
+  "version": "linux-8a3f6613f8b8",
+  "labview_version": "2026",
+  "base_image": "nationalinstruments/labview:latest-linux",
+  "base_digest": "ghcr.io/enoearias/ci_playground-labview@sha256:9ed3ac6af87b86a74d068b8b1a347c8639aa33aae0e84725d708e1191409eb36",
+  "image_ref": "ghcr.io/enoearias/ci_playground-labview:linux-8a3f6613f8b8",
+  "build_date": "2026-06-23T15:32:02Z",
+  "git_sha": "f209f17da4e0d09ec7d035827e0870fc8e6b02e5",
+  "run_url": "https://github.com/enoearias/CI_Playground/actions/runs/28037013807",
+  "vipc": [],
+  "nipkg_raw": "",
+  "nipkg_packages": []
+}
