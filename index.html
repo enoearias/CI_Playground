@@ -108,6 +108,21 @@
       .cidash-chip.cc-warn{background:#fff8c5;color:#9a6700;border-color:#9a670055}
       .cidash-chip.cc-info{background:#ddf4ff;color:#0969da;border-color:#0969da44}
     }
+    /* VIDiff "diff stat": different / new / deleted VI counts for a revision.
+       Colour-coded modified-amber / added-green / deleted-red with grey slashes;
+       zero parts dim so the eye lands on what actually changed. */
+    .cidash-diffstat{display:inline-flex;align-items:baseline;gap:3px;padding:3px 9px;border-radius:999px;font-size:.78em;font-weight:700;font-variant-numeric:tabular-nums;text-decoration:none;border:1px solid var(--border);background:var(--surface)}
+    .cidash-diffstat:hover{border-color:var(--fg-muted)}
+    .cidash-diffstat .ds-sep{color:var(--fg-muted);font-weight:400;opacity:.6}
+    .cidash-diffstat .ds-mod{color:#d29922}
+    .cidash-diffstat .ds-add{color:#3fb950}
+    .cidash-diffstat .ds-del{color:#f85149}
+    .cidash-diffstat .ds-zero{color:var(--fg-muted);opacity:.45;font-weight:600}
+    @media(prefers-color-scheme:light){
+      .cidash-diffstat .ds-mod{color:#9a6700}
+      .cidash-diffstat .ds-add{color:#1a7f37}
+      .cidash-diffstat .ds-del{color:#cf222e}
+    }
     /* Rich "Revision" cell: avatar + message (primary) + sha / author / date (meta). */
     .cidash-rev{padding:8px;max-width:440px}
     .cidash-rev-wrap{display:flex;gap:10px;align-items:flex-start;min-width:0}
@@ -124,14 +139,17 @@
       .lvci-tablewrap{overflow:visible}
       #cidash-table{display:block;width:100%;border:0;background:transparent}
       #cidash-table thead{display:none}
-      #cidash-table tbody,#cidash-table tr,#cidash-table td{display:block;width:auto}
-      #cidash-table tr{border:1px solid var(--border);border-radius:10px;margin:0 0 12px;padding:8px 12px;background:var(--surface)}
-      #cidash-table td{border:0;padding:6px 0}
-      #cidash-table td.cidash-rev{max-width:none;padding:2px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
-      #cidash-table td:not(.cidash-rev){display:flex!important;align-items:center;justify-content:space-between;gap:12px;text-align:left!important;min-width:0}
-      #cidash-table td:not(.cidash-rev)::before{content:attr(data-label);color:var(--fg-muted);font-size:.82em;font-weight:600;flex:1 1 auto;min-width:9rem;text-align:left}
-      #cidash-table td:not(.cidash-rev)>*{flex:0 0 auto;max-width:56%;text-align:right;justify-content:flex-end}
-      .cidash-chip,.run-badge{white-space:normal;text-align:right;justify-content:flex-end}
+      #cidash-table tbody{display:block;width:auto}
+      /* Each card lays its capability cells out as a responsive grid of compact
+         tiles (label above value) so they fill the card width instead of leaving
+         a wide empty gutter between a left-aligned label and right-aligned badge. */
+      #cidash-table tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px 14px;border:1px solid var(--border);border-radius:10px;margin:0 0 12px;padding:12px 14px;background:var(--surface)}
+      #cidash-table td{display:block;width:auto;border:0;padding:0}
+      #cidash-table td.cidash-rev{grid-column:1/-1;max-width:none;padding:2px 0 10px;border-bottom:1px solid var(--border);margin-bottom:0}
+      #cidash-table td:not(.cidash-rev){display:flex!important;flex-direction:column;align-items:flex-start;gap:5px;text-align:left!important;min-width:0}
+      #cidash-table td:not(.cidash-rev)::before{content:attr(data-label);color:var(--fg-muted);font-size:.72em;font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+      #cidash-table td:not(.cidash-rev)>*{max-width:100%}
+      .cidash-chip,.run-badge{white-space:normal;text-align:left;justify-content:flex-start}
     }
     @media(max-width:520px){
       .lvci-main{padding:10px}
@@ -139,10 +157,7 @@
       .lvci-ctxbar .cidash-search{padding:4px 9px}
       .lvci-ctxbar .cidash-segfilter button{padding:6px 8px}
       .lvci-ctxbar .cidash-colbtn{justify-content:flex-start;padding:7px 10px}
-      #cidash-table tr{padding:8px 10px;border-radius:8px}
-      #cidash-table td:not(.cidash-rev){gap:8px;flex-wrap:nowrap}
-      #cidash-table td:not(.cidash-rev)::before{flex:1 1 52%;min-width:0}
-      #cidash-table td:not(.cidash-rev)>*{max-width:48%}
+      #cidash-table tr{padding:10px 12px;border-radius:8px;gap:11px 12px}
       .cidash-rev{padding:8px 0}
       .cidash-rev-msg{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
       .cidash-rev-meta{flex-wrap:wrap;white-space:normal}
@@ -156,7 +171,7 @@
   <div id="lvci-modal" onclick="if(event.target===this)lvciClose()" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.55)">
     <div style="position:absolute;inset:24px;background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 48px rgba(0,0,0,.5)">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)">
-        <strong id="lvci-modal-title" style="font-size:.95em">Configure Workers</strong>
+        <strong id="lvci-modal-title" style="font-size:.95em">Configure Pipeline</strong>
         <button onclick="lvciClose()" style="background:transparent;border:1px solid var(--border);color:var(--fg);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.82em">✕ Close</button>
       </div>
       <iframe id="lvci-frame" title="LabVIEW CI dialog" src="about:blank" style="border:0;width:100%;flex:1;min-height:0"></iframe>
@@ -188,7 +203,7 @@
     // the install/Configure iframe and its in-flight work. When a refresh comes due
     // with a dialog open, keep re-checking and reload only once it is closed.
     (function () {
-      var REFRESH_MS = 900 * 1000;
+      var REFRESH_MS = 60 * 1000;
       if (!(REFRESH_MS > 0)) return;
       function tick() {
         if (lvciModalOpen()) { setTimeout(tick, 5000); return; }
@@ -227,7 +242,7 @@
   </div>
   <script>
   (function(){
-    var RT = {"masscompile": {"label": "Mass Compile", "platforms": {"windows": {"wf": "masscompile-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "masscompile-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vi-analyzer": {"label": "VI Analyzer", "platforms": {"windows": {"wf": "run-vi-analyzer-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "run-vi-analyzer-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vidiff": {"label": "VIDiff", "platforms": {"windows": {"wf": "vidiff-windows-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}, "linux": {"wf": "vidiff-linux-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}}}, "snapshots": {"label": "VI Snapshots", "platforms": {"all": {"wf": "vi-snapshots.yml", "inputs": {"mode": "backfill"}}}}, "snapshots2": {"label": "VI Browser 2.0 Snapshots", "platforms": {"windows": {"wf": "vi-snapshots-json-windows.yml", "inputs": {"target_sha": "{sha}"}}, "linux": {"wf": "vi-snapshots-json.yml", "inputs": {"mode": "head", "target_sha": "{sha}"}}}}, "unit-tests": {"label": "Unit Tests", "platforms": {"windows": {"wf": "unit-tests-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "antidoc": {"label": "Antidoc", "platforms": {"windows": {"wf": "run-antidoc-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}};
+    var RT = {"masscompile": {"label": "Mass Compile", "platforms": {"windows": {"wf": "masscompile-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}, "linux": {"wf": "masscompile-linux-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vi-analyzer": {"label": "VI Analyzer", "platforms": {"windows": {"wf": "run-vi-analyzer-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}, "vidiff": {"label": "VIDiff", "platforms": {"windows": {"wf": "vidiff-windows-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}, "linux": {"wf": "vidiff-linux-container.yml", "inputs": {"head_sha": "{sha}", "base_sha": "{parent}"}}}}, "snapshots": {"label": "VI Snapshots", "platforms": {"all": {"wf": "vi-snapshots.yml", "inputs": {"mode": "backfill"}}}}, "snapshots2": {"label": "VI Browser 2.0 Snapshots", "platforms": {"linux": {"wf": "vi-snapshots-json.yml", "inputs": {"mode": "head", "target_sha": "{sha}"}}}}, "unit-tests": {"label": "Unit Tests", "platforms": {"windows": {"wf": "unit-tests-windows-container.yml", "inputs": {"commit_sha": "{sha}"}}}}};
     var REPO = "enoearias/CI_Playground";
     var BRANCH = "main";
     var TOK_KEY = "lvci_dispatch_token";
@@ -941,11 +956,12 @@
     }
     function bfShow(){
       var c=bfCard(); if(!c) return;
-      // Hide on a repo we've dismissed, or once anything has been queued from here
-      // ("disappear after anything is run"); otherwise show with a live count.
-      var queued = Object.keys(qLoad()).length > 0;
-      if(bfDismissed() || queued){ c.style.display='none'; return; }
       var cells=bfCells(); if(!cells.length){ c.style.display='none'; return; }
+      // Hide on a repo we've dismissed, or once this dashboard has queued one of
+      // its own cells ("disappear after anything is run"); otherwise show with a live count.
+      var queued = qLoad();
+      var queuedHere = cells.some(function(x){ return !!queued[x.cap+'|'+x.sha]; });
+      if(bfDismissed() || queuedHere){ c.style.display='none'; return; }
       var shas={}; cells.forEach(function(x){ shas[x.sha]=1; });
       var n=document.getElementById('lvci-bf-count'); if(n) n.textContent=String(Object.keys(shas).length);
       c.style.display='';
@@ -958,6 +974,23 @@
     // and the per-revision activities oldest-first, gently throttled so a long
     // history doesn't trip GitHub's secondary rate limits. Resolves with an
     // {ok, err, total} tally; the caller owns its own status line + buttons.
+    // Turn collected dispatch failures into an accurate message. A 404 means the
+    // targeted workflow file is not installed on this repo (its LabVIEW CI tooling
+    // is out of date) -- NOT a token problem -- so callers do not re-prompt for a
+    // token in that case. .tok = whether the failure is token/permission related.
+    function dispatchFailMsg(fails){
+      fails = fails || [];
+      var has = function(code){ return fails.some(function(f){ return f.status===code; }); };
+      if(has(401)) return { html:'That saved token was rejected (401) \u2014 it is invalid or expired. <a href="'+tokenSetupUrl()+'" target="_blank" rel="noopener" style="color:var(--link)">Create or update a token \u2197</a>', tok:true };
+      if(has(404)){
+        var wfs=[]; fails.forEach(function(f){ if(f.status===404 && f.wf && wfs.indexOf(f.wf)<0) wfs.push(f.wf); });
+        var list=wfs.map(function(w){ return '<code>'+esc(w)+'</code>'; }).join(', ');
+        return { html:'<strong>Not a token problem</strong> \u2014 your saved token worked, but '+(wfs.length>1?'these workflows are':'this workflow is')+' not installed on <code>'+esc(REPO)+'</code> (HTTP 404): '+list+'. This repository\u2019s LabVIEW CI tooling is out of date \u2014 update it from <strong>What\u2019s new \u2192 Update</strong> to add the missing workflow'+(wfs.length>1?'s':'')+', then queue again.', tok:false };
+      }
+      if(has(403)) return { html:'The saved token is missing the <strong>Actions: Read and write</strong> permission on <code>'+esc(REPO)+'</code> (HTTP 403). On the token page set <strong>Permissions \u2192 Repository permissions \u2192 Actions \u2192 Read and write</strong>, then <strong>Update</strong>. <a href="'+tokenSetupUrl()+'" target="_blank" rel="noopener" style="color:var(--link)">Update token \u2197</a>', tok:true };
+      if(has(422)) return { html:'GitHub rejected the dispatch (HTTP 422) \u2014 usually a bad branch ref (<code>'+esc(BRANCH)+'</code>) or inputs.', tok:false };
+      var st=(fails[0]||{}).status; return { html:'Could not queue runs (HTTP '+esc(String(st||'?'))+'). <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View Actions \u2197</a>', tok:false };
+    }
     function dispatchCells(cells, statusFn){
       var perRev=[]; var snapShas=[]; var sawSnap=false; var snapForce=false;
       cells.forEach(function(x){
@@ -969,7 +1002,7 @@
       });
       perRev.sort(function(a,b){ return b.order - a.order; });   // oldest first
       var total=perRev.reduce(function(n,x){ return n + cellPlatforms(x).length; }, 0) + (sawSnap?1:0);
-      var t0=Date.now(); var ok=0, err=0, done=0;
+      var t0=Date.now(); var ok=0, err=0, done=0; var fails=[];
       // Paint EVERY targeted cell as "Queued" up front, in one synchronous pass, so
       // the whole batch lights up the instant you click - independent of the throttled
       // dispatch chain below. A dispatch that truly fails then reverts just its own
@@ -985,7 +1018,7 @@
           return dispatchOne('vi-snapshots.yml', inputs).then(function(r){
             done++;
             if(r.ok){ ok++; captureSnapshotRun(t0); }
-            else { err++; if(r.status===401) clearTok(); snapShas.forEach(function(sha){ qForget('snapshots', sha); }); }
+            else { err++; fails.push({wf:'vi-snapshots.yml', status:r.status}); if(r.status===401) clearTok(); snapShas.forEach(function(sha){ qForget('snapshots', sha); }); }
             statusFn('Queuing\u2026 '+done+'/'+total, null);
           }).catch(function(){ err++; });
         });
@@ -1003,6 +1036,7 @@
           return Promise.all(jobs).then(function(results){
             done += results.length;
             if(results.some(function(r){return r.status===401;})) clearTok();
+            results.forEach(function(r){ if(!r.ok) fails.push({wf:r.wf, status:r.status}); });
             var okPlats=results.filter(function(r){return r.ok;}).map(function(r){return r.plat;});
             if(okPlats.length){ ok++; markQueued(x.cap, x.sha, okPlats, x.parent, t0); captureRuns(x.cap, x.sha); }
             else { err++; qForget(x.cap, x.sha); }
@@ -1011,7 +1045,7 @@
         }).catch(function(){ /* one cell's error never aborts the rest */ })
           .then(function(){ return new Promise(function(res){ setTimeout(res, 650); }); });
       });
-      return chain.then(function(){ return { ok:ok, err:err, total:total }; });
+      return chain.then(function(){ return { ok:ok, err:err, total:total, fails:fails }; });
     }
     function bfRunAll(){
       var cells=bfCells();
@@ -1026,10 +1060,13 @@
           bfStatus('\u2713 Queued '+res.ok+' workflow'+(res.ok>1?'s':'')+', oldest first \u2014 results appear as they finish. <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View runs \u2197</a>', 'ok');
           bfDismiss();
         } else if(res.ok && res.err){
-          bfStatus('Queued '+res.ok+', but '+res.err+' could not be dispatched \u2014 check the token has <strong>Actions: Read and write</strong> on this repo. <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View runs \u2197</a>', 'warn');
+          var pm=dispatchFailMsg(res.fails);
+          bfStatus('Queued '+res.ok+', but '+res.err+' could not be dispatched. '+pm.html, 'warn');
+          if(pm.tok) bfTokPanel(true);
         } else {
-          bfStatus('Could not queue runs. The token needs <strong>Actions: Read and write</strong> on <code>'+esc(REPO)+'</code> (runs dispatch on <code>'+esc(BRANCH)+'</code>). <a href="'+tokenSetupUrl()+'" target="_blank" rel="noopener" style="color:var(--link)">Create or update a token \u2197</a>', 'err');
-          bfTokPanel(true);
+          var fm=dispatchFailMsg(res.fails);
+          bfStatus(fm.html, 'err');
+          if(fm.tok) bfTokPanel(true);
         }
       });
     }
@@ -1051,8 +1088,8 @@
     // activities to queue. Reuses dispatchCells (oldest-first, snapshots as one
     // backfill) + the same token and optimistic-queued bridge as every other
     // dispatch on the dashboard.
-    var HIST = [];                        // [{sha, short, msg}] newest-first (project revisions)
-    var RAN = {};                     // {cap:1} caps with a result/active run somewhere in history
+    var HIST = [{"sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9", "short": "2420f17", "msg": "Merge branch 'develop'", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}, {"sha": "33a9aa75248f5bbb1e9fdee6d4b5c16e83659414", "short": "33a9aa7", "msg": "Adding a project with a new VIPC", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}];                        // [{sha, short, msg}] newest-first (project revisions)
+    var RAN = {"masscompile": 1, "snapshots": 1, "vi-analyzer": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
     var CAP_META = {                            // label + sub for each known capability
       'snapshots':   ['VI Snapshots', 'Renders every changed VI (classic HTML snapshots)'],
       'snapshots2':  ['VI Browser 2.0 Snapshots', 'Renders position-aware snapshots for the VI Browser 2.0 view'],
@@ -1092,7 +1129,9 @@
     function histInstalledCaps(){
       var seen={}; bfCells().forEach(function(x){ seen[x.cap]=1; });
       if(HIST.length && RT.snapshots2) seen.snapshots2=1;
-      return CAP_ORDER.filter(function(c){ return seen[c] || RAN[c]; });
+      // Require an installed run target (RT[c]): a capability whose workflow is not
+      // present in this repo is never offered, even if it ran here historically.
+      return CAP_ORDER.filter(function(c){ return (seen[c] || RAN[c]) && RT[c]; });
     }
     function histModal(){ return document.getElementById('cidash-hist-modal'); }
     function cidashHistClose(){ var m=histModal(); if(m) m.style.display='none'; document.body.style.overflow=''; }
@@ -1404,11 +1443,14 @@
           setTimeout(cidashHistClose, 900);
         } else if(res.ok && res.err){
           if(go) go.disabled=false;
-          histStatus('Queued '+res.ok+', but '+res.err+' could not be dispatched \u2014 check the token has <strong>Actions: Read and write</strong> on this repo. <a href="https://github.com/'+REPO+'/actions" target="_blank" rel="noopener" style="color:var(--link)">View runs \u2197</a>', 'warn');
+          var pm=dispatchFailMsg(res.fails);
+          histStatus('Queued '+res.ok+', but '+res.err+' could not be dispatched. '+pm.html, 'warn');
+          if(pm.tok) histTokPanel(true);
         } else {
           if(go) go.disabled=false;
-          histStatus('Could not queue runs. The token needs <strong>Actions: Read and write</strong> on <code>'+esc(REPO)+'</code> (runs dispatch on <code>'+esc(BRANCH)+'</code>). <a href="'+tokenSetupUrl()+'" target="_blank" rel="noopener" style="color:var(--link)">Create or update a token \u2197</a>', 'err');
-          histTokPanel(true);
+          var fm=dispatchFailMsg(res.fails);
+          histStatus(fm.html, 'err');
+          if(fm.tok) histTokPanel(true);
         }
       });
     }
@@ -1453,7 +1495,7 @@
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — CI_Playground</h1>
-  <div class="sub">Last updated: 2026-06-26 16:16 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-06-26 17:44 UTC &nbsp;|&nbsp; Live — refreshing every 60 s while CI runs</div>
   <div class="nav">
     <a href="https://github.com/enoearias/CI_Playground">GitHub</a>
     <a href="https://github.com/enoearias/CI_Playground/actions">Actions</a>
@@ -1497,6 +1539,60 @@
       </tr>
     </thead>
     <tbody>
+    <tr data-project="true" data-deponly="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(139,42%,45%)" title="Enrique Noe Arias" aria-hidden="true">E</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=2420f173a4b8e1d7b2b9f27981975a956dfb92a9" class="cidash-rev-msg" title="Merge branch &#x27;develop&#x27;">Merge branch &#x27;develop&#x27;</a></div>
+            <div class="cidash-rev-meta"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=2420f173a4b8e1d7b2b9f27981975a956dfb92a9" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">2420f17</a><span class="cidash-rev-dot">&middot;</span>Enrique Noe Arias<span class="cidash-rev-dot">&middot;</span>2026-06-26</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28254806302" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>compile</a></span></td>
+      <td style="text-align:center"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28254806285" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>analyze</a></span></td>
+      <td style="text-align:center"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28254806324" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>diff</a></span></td>
+      <td style="text-align:center"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28254806297" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>snapshots</a></span></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="unit-tests" data-sha="2420f173a4b8e1d7b2b9f27981975a956dfb92a9" data-parent="f98c5dbc605b48b41e680f38e24845fab50d3300" data-short="2420f17" title="Run Unit Tests for commit 2420f17">&#9655;</a></td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
+    <tr data-project="true" data-deponly="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(139,42%,45%)" title="Enrique Noe Arias" aria-hidden="true">E</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" class="cidash-rev-msg" title="Adding a project with a new VIPC">Adding a project with a new VIPC</a></div>
+            <div class="cidash-rev-meta"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">33a9aa7</a><span class="cidash-rev-dot">&middot;</span>Enrique Noe Arias<span class="cidash-rev-dot">&middot;</span>2026-06-26</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="masscompile" data-sha="33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" data-parent="ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3" data-short="33a9aa7" title="Run Mass Compile for commit 33a9aa7">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vi-analyzer" data-sha="33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" data-parent="ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3" data-short="33a9aa7" title="Run VI Analyzer for commit 33a9aa7">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="vidiff" data-sha="33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" data-parent="ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3" data-short="33a9aa7" title="Run VIDiff for commit 33a9aa7">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="snapshots" data-sha="33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" data-parent="ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3" data-short="33a9aa7" title="Run VI Snapshots for commit 33a9aa7">&#9655;</a></td>
+      <td style="text-align:center"><a href="#" class="cidash-run" data-cap="unit-tests" data-sha="33a9aa75248f5bbb1e9fdee6d4b5c16e83659414" data-parent="ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3" data-short="33a9aa7" title="Run Unit Tests for commit 33a9aa7">&#9655;</a></td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
+    <tr data-project="false" data-deponly="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(150,42%,45%)" title="github-actions[bot]" aria-hidden="true">G</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=f98c5dbc605b48b41e680f38e24845fab50d3300" class="cidash-rev-msg" title="ci: adopt LabVIEW CI tooling v4.1.35 (config + scripts; 20 workflow file(s) defe">ci: adopt LabVIEW CI tooling v4.1.35 (config + scripts; 20 workflow file(s) defe</a></div>
+            <div class="cidash-rev-meta"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=f98c5dbc605b48b41e680f38e24845fab50d3300" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">f98c5db</a><span class="cidash-rev-dot">&middot;</span>github-actions[bot]<span class="cidash-rev-dot">&middot;</span>2026-06-26</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
     <tr data-project="false" data-deponly="false">
       <td class="cidash-rev">
         <div class="cidash-rev-wrap">
