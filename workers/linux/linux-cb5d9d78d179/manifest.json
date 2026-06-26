@@ -1,0 +1,29 @@
+{
+  "schema": 2,
+  "platform": "linux",
+  "version": "linux-cb5d9d78d179",
+  "labview_version": "2026",
+  "base_image": "nationalinstruments/labview:latest-linux",
+  "base_digest": "ghcr.io/enoearias/ci_playground-labview@sha256:54b513f9fd67a5f4e8e4ead523c0682f722b44af151230a6c1520b4e3ae822b5",
+  "seed_image": "",
+  "seed_digest": "",
+  "worker_layer": "",
+  "copied_from_base": false,
+  "image_ref": "ghcr.io/enoearias/ci_playground-labview:linux-cb5d9d78d179",
+  "build_date": "2026-06-26T17:43:21Z",
+  "git_sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9",
+  "run_url": "https://github.com/enoearias/CI_Playground/actions/runs/28254806317",
+  "vipc": [
+    {
+      "file": "dependencies.vipc",
+      "packages": [
+        "delacor_lib_qmh-7.1.2.1547"
+      ],
+      "present": true
+    }
+  ],
+  "vipm_raw": "",
+  "vipm_packages": [],
+  "nipkg_raw": "",
+  "nipkg_packages": []
+}
