@@ -4,15 +4,15 @@
   "version": "win-bef9d830c541",
   "labview_version": "2026",
   "base_image": "ghcr.io/enoearias/ci_playground-labview-vipm-base:2026",
-  "base_digest": "ghcr.io/enoearias/ci_playground-labview-vipm-base@sha256:692b59cfa5e8407621b3726cbf23d410b6d6a47d7cf2daacf48f8ba39dd77574",
+  "base_digest": "ghcr.io/enoearias/ci_playground-labview-vipm-base@sha256:470563aef85c5893b3d89cdf4d174a61f1c5bcf0caabbd4a6dec4e49402e8ff8",
   "seed_image": "",
   "seed_digest": "",
   "worker_layer": "",
   "copied_from_base": false,
   "image_ref": "ghcr.io/enoearias/ci_playground-labview:win-bef9d830c541",
-  "build_date": "2026-06-26T19:11:29Z",
+  "build_date": "2026-06-26T21:06:35Z",
   "git_sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9",
-  "run_url": "https://github.com/enoearias/CI_Playground/actions/runs/28254806282",
+  "run_url": "https://github.com/enoearias/CI_Playground/actions/runs/28256258997",
   "vipc": [
     {
       "file": "ci-tooling.vipc",
