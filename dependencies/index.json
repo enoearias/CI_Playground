@@ -243,6 +243,7 @@
       "ready": true,
       "packages": [
         "dataflow_g_lib_g_image-0.5.0.1",
+        "delacor_lib_qmh-7.1.2.1547",
         "jki_lib_caraya-1.4.4.148",
         "jki_vi_tester",
         "ni_lib_junit_results_api-1.0.1.6",
@@ -2565,7 +2566,7 @@
         }
       ],
       "labview_version": "2026",
-      "version": "win-9d31cd68796e"
+      "version": "win-bef9d830c541"
     },
     {
       "key": "linux",
