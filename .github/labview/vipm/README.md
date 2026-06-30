@@ -19,9 +19,9 @@ false "no unit tests found".
 | File | Role |
 | --- | --- |
 | `install-vipc.ps1` | Build-time hook. Uses the VIPM CLI already present in the shared VIPM base image, launches headless LabVIEW, then installs the packages listed in every staged `*.vipc`. A failed bake fails the image build unless `VIPM_ALLOW_MISSING_PACKAGES=1` is explicitly set. |
-| `ci-tooling.vipc` | The default CI-tooling configuration (Antidoc CLI, Caraya, VI Tester, UTF JUnit Report). Generated from the two JSON files below. |
-| `ci-tooling.packages.json` / `ci-tooling.defaults.json` | Inputs used by `build-tooling-vipc.py` to (re)generate `ci-tooling.vipc`. |
-| `build-tooling-vipc.py` | Regenerates `ci-tooling.vipc` from the JSON inputs. |
+| `ci-tooling.vipc` | The default CI-tooling configuration (Caraya, VI Tester, LUnit base + CLI, UTF JUnit Report, G Image). A **real, VIPM-openable** VIPC generated from the two JSON files below — you can open and edit it in VIPM. |
+| `ci-tooling.packages.json` / `ci-tooling.defaults.json` | Inputs used by `build-tooling-vipc.py` to (re)generate `ci-tooling.vipc`. **This JSON pair is the source of truth; the `.vipc` is a generated artifact** (Reconfigure/Update regenerate it). |
+| `build-tooling-vipc.py` | Regenerates `ci-tooling.vipc` from the JSON inputs. It resolves each package (and its dependency closure) against the public VIPM indexes and downloads each one's **real spec + icon**, so the result is a genuine VIPM-openable VIPC without needing VIPM or Windows. Stdlib only, but **requires network** to the public indexes. |
 
 ---
 
@@ -74,11 +74,11 @@ add-on must never be able to break the whole worker:
    domain dependencies the project's VIs load against) must install or the build
    fails.
 3. **Tooling VIPCs (`ci-tooling*.vipc`) are best-effort.** Their add-ons
-   (Antidoc, Caraya, VI Tester) are opportunistic: if one wedges the headless VIPM
-   engine — Antidoc's large dependency tree is the known offender — the script
-   warns and continues, and the image is still published. The required essentials
-   above are already installed, so UTF still works. Bake a wedge-prone add-on from
-   its own dedicated VIPC if you need it guaranteed in the worker.
+   (Antidoc, Caraya, LUnit base + CLI, VI Tester) are opportunistic: if one wedges
+   the headless VIPM engine — Antidoc's large dependency tree is the known offender
+   — the script warns and continues, and the image is still published. The required
+   essentials above are already installed, so UTF still works. Bake a wedge-prone
+   add-on from its own dedicated VIPC if you need it guaranteed in the worker.
 
 This ordering is why the main `build-labview-image.yml` produces a working,
 UTF-capable image even when Antidoc cannot currently be baked headless.
@@ -86,6 +86,26 @@ UTF-capable image even when Antidoc cannot currently be baked headless.
 To add **custom** project dependencies: commit a `.vipc` (made in the VIPM
 editor, or generated like `ci-tooling.vipc`) at the repo root or under
 `.github/labview/vipm/`, then rebuild the image. No script changes are needed.
+
+### Baking a package that is on no VIPM repository (commit its `.vip`)
+
+A package published on **no** VIPM repository — e.g. an in-house framework — cannot
+be resolved by name from the public indexes. Rather than standing up a private VIPM
+mirror, **commit the package's `.vip` file to the repo** and reference the package in
+a `.vipc`:
+
+1. Commit the `.vip` anywhere outside `.github/` (the build stages every repo `*.vip`
+   into `.github/labview/vipm/`, next to the VIPCs). Keep VIPM's canonical export name
+   `<package-id>-<version>.vip` so its id + version are read correctly.
+2. Reference that package (id + version) in a `.vipc` you apply (a project
+   `Dependencies.vipc` or `ci-tooling`). The `.vipc` must also list the package's
+   dependency closure (OpenG, etc.), because dependencies are **not** read out of the
+   committed `.vip` — they are resolved from the `.vipc` like any other package.
+
+When applying that `.vipc`, `install-vipc.ps1` uses the committed `.vip` **in preference
+to the public mirror** (and it is the only way a no-index package resolves at all). A
+committed `.vip` that is **not** referenced by any applied `.vipc` is never installed on
+its own.
 
 ---
 
