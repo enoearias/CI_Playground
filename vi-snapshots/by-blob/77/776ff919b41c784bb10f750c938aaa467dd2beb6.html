@@ -1,0 +1,137 @@
+<HTML>
+<HEAD>
+<TITLE>Acquisition.lvlib:Destroy Sync Refnums.vi</TITLE>
+<META NAME="Author" CONTENT="">
+<META NAME="GENERATOR" CONTENT="G Development Environment">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<A NAME="Acquisition.lvlib:Destroy Sync Refnums.vi"></A><H2>Acquisition.lvlib:Destroy Sync Refnums.vi</H2>
+<P>Destroy the sync refnums used to synchronize event generation and event registration between the module and its caller(s).</P>
+<P>_____</P>
+<P>Based on DQMH Project Template 4.0.0.47.</P>
+<P>_____</P>
+<P>Based on DQMH Dev Tools: Project Template 7.1.2.1547.</P>
+<HR>
+<H3>Connector Pane</H3>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAMQAAAAjCAMAAAD8OVVjAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAB80lEQVR4Xu2YP27CMBTGDRJqfI6kU+hmrgFdWZqlXKBMHQsTQy8SptIDdOxWJjiMheTafk5sQ4wRpNSW+MifF16e9P1svyiAULtiHvnqg5BtOd9XLBBfWmycA0l9iAZCfmDjrmGromgg5BwAxFhZ1wdffRBSM6GWUzX+YlEBhq8+CDE2GAyMxmb1SpIUsUA0PpViezodl68+CHlc3iCuphtEKLJc0h0XdaaDleGS+88FCEW7pnTA0i4JxkScOUW0ECTvdiuKWCEkA84LsaqihcCCAWOrq1F8EIKBUN0bVjps6eUkGEhh9IaZDltGY2sG2Rt2OmhplwWlxUFvxAYB0r3RmA5T2iU8Wuve2E9fR0mZ+W5pkAkhh1/1RpryOE1bhzjPpUcGBAUK6A1Bwbc/g0gWbD1MljO2nm36PM54vMl4ur98YtsXccv8ZBkQ8t0P5dVbRyomg/nqtdzO5PeZsJ8sF+xHUjwPheHVKFmNOpMpIt88kIz91RRhSTrv9Rg7abeG2noVBwhffb3P3c5UXMqBVjPxyX+/bx9LgWYm4AzT5Rs1Led6UcvJV691zFlWu6sgPlTiCMTpckGc1dhOZ4cQk1e44Dk9UWdDtPmXjcMZxJ33IXqoIe5k+yhY0SiXQLQqhzOIEWHbt/J+svlHgzft6Rdh32fv1ZbKbAAAAABJRU5ErkJggg==" ALT="Acquisition.lvlib:Destroy Sync Refnums.vi"></P>
+<HR>
+<H3>Front Panel</H3>
+<P><IMG src="data:image/png;base64, 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" ALT="Acquisition.lvlib:Destroy Sync Refnums.vi"></P>
+<HR>
+<H3>Controls and Indicators</H3>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAUklEQVR4Xo2PSQ4AIAgD+3e+zcEFghtWJ4qJTiFCHuBDAMEEHm8rC/ZjESwCL+1GN8H3QDXrcBfCgs+pgk5CvNgoOTqsgpxCwvjFFRcINB5NOAWz5p4hF3InbAAAAABJRU5ErkJggg==" ALT="cerrcodeclst"></P>
+</TD>
+<TD>
+<B>error in</B> <P><B>error in</B> can accept error information wired from VIs previously called. Use this information to decide if any functionality should be bypassed in the event of errors from other VIs.</P>
+<P></P>
+<P>Right-click the <B>error in</B> control on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error. </P>
+</TD>
+</TR>
+</Table>
+<UL>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAR0lEQVR4Xp2PwQkAIAwDs/9qrpSHSENFpVE8hIJcQot2AQ8CDCH4+HhlfhUUggbAoyH+cyvyW5BC8rehFDbmFSUSDDaeJZ4OWdHkfaGlu9YAAAAASUVORK5CYII=" ALT="cbool"></P>
+</TD>
+<TD>
+<B>status</B> <P><B>status</B> is TRUE (X) if an error occurred or FALSE (checkmark) to indicate a warning or that no error occurred.</P>
+<P></P>
+<P>Right-click the <B>error in</B> control on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAVklEQVR4Xo2PXQ7AIAyCuf/xdh4ejP3ZNF1RYpoYP8DiOQgXAIQc0PZ5Wv8KmAE2YoJ7gr/H3QiyADkFgOiwCvK/Itk9Yfmkb1gqqr4tWmVnL2l/Q7QGRH36sX0BviEAAAAASUVORK5CYII=" ALT="ci32"></P>
+</TD>
+<TD>
+<B>code</B> <P><B>code</B> is the error or warning code.</P>
+<P></P>
+<P>Right-click the <B>error in</B> control on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAUUlEQVR4Xo2PwQ0AIAgDOwn7D9mHERMVkerFxAdXGmAP8CFAMAQd76/MZyEUMgo+iwLjhj70Yv+yYEPAuozkJhguwrnBZEVmXVGy9RXI+FyiaZwnLfeqyZBKAAAAAElFTkSuQmCC" ALT="cstr"></P>
+</TD>
+<TD>
+<B>source</B> <P><B>source</B> describes the origin of the error or warning.</P>
+<P></P>
+<P>Right-click the <B>error in</B> control on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+</UL>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAATUlEQVR4Xo2NMQ4AIAgD+3e+zeBQJLGKcIOJcC2wBhi+zIRPfwh3ziIegnPICB8RnD/tEoENheB7RCnUoyE3PNUJ2oA3KZTksZqJ0LAA3Th1tG3eamsAAAAASUVORK5CYII=" ALT="ierrcodeclst"></P>
+</TD>
+<TD>
+<B>error out</B> <P><B>error out</B> passes error or warning information out of a VI to be used by other VIs.</P>
+<P></P>
+<P>Right-click the <B>error out</B> indicator on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+<UL>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAARElEQVR4XmM4TQAwnGbAC4hTgMd8qALc2qEK/kC4ME0QCkXBH6iO0wiSVAUwS2BWkW4CIQUM2AFcAU7AQGRQE1BAAAAAb0Kl2HsrjzIAAAAASUVORK5CYII=" ALT="ibool"></P>
+</TD>
+<TD>
+<B>status</B> <P><B>status</B> is TRUE (X) if an error occurred or FALSE (checkmark) to indicate a warning or that no error occurred.</P>
+<P></P>
+<P>Right-click the <B>error out</B> indicator on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAT0lEQVR4Xo2QyQ0AIAgEt//yqIeHCYeBCMIk7ocRUNAACF92wqe/Cf11ExjaRhKeUVBDDtnUWvB8Bc6lYYTXsxCWtBdGATVXaMHyqwdh4AAbkbnjrMwcWQAAAABJRU5ErkJggg==" ALT="ii32"></P>
+</TD>
+<TD>
+<B>code</B> <P><B>code</B> is the error or warning code.</P>
+<P></P>
+<P>Right-click the <B>error out</B> indicator on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+<Table>
+<TR valign=TOP>
+<TD>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAMAAABA3o1rAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAAT0lEQVR4Xo2QyQ0AIAgEtxL6L5KHURAkkWMePGBYoqAGEEpmQpGvQr6uAnsryC7wnVXCGcphSH0F1uZ+N1lOSCA0gqRnJ/DHhBQMv7oRGhYk9SS1uRY8QQAAAABJRU5ErkJggg==" ALT="istr"></P>
+</TD>
+<TD>
+<B>source</B> <P><B>source</B> string describes the origin of the error or warning.</P>
+<P></P>
+<P>Right-click the <B>error out</B> indicator on the front panel and select <B>Explain Error</B> or <B>Explain Warning</B> from the shortcut menu for more information about the error.</P>
+</TD>
+</TR>
+</Table>
+</UL>
+<HR>
+<H3>Block Diagram</H3>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAZcAAAB0CAMAAAB+H4+nAAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAAJBElEQVR4Xu2cvXLbRhDHAc5oQryHoIZiZbqx3sG0Gw3dWEXEF4gqO1XEwlFh5wmUKklhqpH0AJlxE7kJ00iP4oLD8eU+gbvDHe5ALsGP2b8tCsLtLe/ud7sLcCQkyQ1BNdBN0pJIimogElpPKCGXRmqRS3ZPyNNFaEBU2TQ3f75/oK/jWXlWWRiW1P9/wzRCohcbDiH+8US7S6sjDupFzRtztcmFDr47vtbe3DUdeq7C5YaeyO4DXDqfhml2G7M+kotnLeX5eHdpcy6djyH7lrlYOzySy/QtXaM/tbMuLvFrE8Ul3l3a0DiNsW+bC90p2RWZDdMBeXo/JrP+9PKxT0/kA5qrTmhw83NvWcITdnwW/ev0xesp75mz8zfUJmfnp3lhlY7ff0tT7uZn4aB7JfMmTUlPF1nh9WZWcpFhwb0IizERgel1l8khDw2PYhwnhDwelS75FqNfdLLvtJ6vfiOPYpKZnMYl+f0tdSXtNsAlPR+e02FPjyifW7asd8N0TAf0QGfCo5vFy90F+8btxAr2p0cfqDE3ZOb9kkthlXbpRIfcTV84GL9Lu59kiaC28iTrnQtYdBHzk2vmk3sRFn25l73u2JA1e+lRjYM6Ey7FrPgw+WRzvaeapJzG3ZA2lXYb4EJnydbjaTj+7/03kbPknjq5yB7SIo/RwQo7cerH/h/FJIzX0oqJrg9zkxUmEsqvhMz0floe4xuAM3p6bXXzuGMjtOzL0bJ1FS71t2OTtXrq7X21DtJuA1zoIG7Vfnzs61yyhxcSghxyUXTpz4ObCw8XozSzLEndWAvJc5XRT68v52yRbtUZg4vbXVa1L0c7vlAujbejk83Nnk4u0i5tnUuXjpvmAxqydK3U8EV66lzNjCHn3E6duuXbSeWxwezo4zDtswkVVoOvOdvgzE3pgCeeDrV9NlNbl/XWuQxu6CUi91KSq3XHh1zaS49iHKweKZdssB0+TD5Zq6dwWkyDT1vZtcxF3r90eYV8dk+uO+NHPjdezllaZntUnpvm3bLuKzqi7t+Tv3gp/YVNqLCi9wRk1uNussKBqPv0vdSVQi56p7K+kGue9MWY5FKNxZb1uuP7q7SXHsU4xiKZMZdisHyYOZus1VN2VtMQZ7gdL7Mtcgmo80HPSEsLyI0SsLtobQ2XjOh3nEsLyI0SsLt4tcblu/tzU5Rb30PriUKhUCgUCoVCoVAoFAqFQqFQKBQqTqEP5UP9ITygqjLXsGcrYlUDJhEeUFUR8ncp8qYn4BQvEauKXNYhyoX/E/8pCPFfHUWsatXESF4RHlBVyXiRXN5IGuXL16CQyzok40XmMRUlLJsJMqH+GC/rESHPnz/X6j4pUhgHE7Gqtol05WtGRclzHbbK9ZiBBbksJxJQqL+98Own0Y24mndW3c+HIRNQrX6Va3FRSMh+cWlboFy0ECsOIzxsldgvWb/sTi/J7PLxmB4f0uPHQxovx+yvrX4KdYfSGrgQ88jXb0t1/pIxuBt2+V+VJYN/6EGS8HMXSdZaNgtxcd+zfNFNtMM9iBf+x1WvPh92+X/Gg7MQ39urMsayzRdUc29zqa9ek+JKYYP1ZaXVuxUUtogLRdJjbObJwtWsq4aLfbRrXMbvBAPqROaxDXMZZNmAfadgVuBSETQXT13m58UOn16Rf5dfvh+4fxkszNOGuQx6nY4C05yLLPYOU2gunrpc7m2VeXZbatk4lqx3xtLZUlwI/zo9tU2huXjr8mGxp/eJS8awZJlR9JN4LsWHLxUw0Fy8dXlfuTAsg3lZZ4xmS476Ii+QTxMLDDQXT10Wx+nHl0lfcZkEFHijzarMYwzL4EyrM3qzpbp4sSIGmounLovjhP0N9Od8zC4E9oMLA1Ng4XXGbDblrS9M6+USL/fKH0uNRq7WrVG5bGfz+VmlzsRzUS9bxcURJSOh3eEiVNYZZ7NU7f1LPJdFQDVdI8S4VE+ORLTsDhexEEWdsZsNubgUOBpwqf9DfxcXRwQYMkwlF9kgXjiXxU5x4UEi64zRPLFTNRwXuhlSHx4nF8c5T3PJRW/g4bJY7BCXuQAj6ozePKEV3VwPOC509RtxGam6fexo9HHRA6nk4g+6LZDGhX9kmfT0j2ESwm0ODgjRO1EuVQ8+LhO/GJCG8TJiV1JcDn8eLvInzobWfc5lMRrxaW3rl7GdHZ/zcxv5VfSjXDQf0vS0kO6AXT17359zSRtzqcTLpMhXLi4SiPx2PNqxeHFKxAujondyxkudB48cQEQIiRjycVnwKyrmQBXzBlxGBZeq8y1SaFXZS1x98ShUX6x4WWg1x8uFgWHLal0E1OYxpeMduR4LiBtNDqwJGlxiPLhlx4u4aylqzsIRYiUXGQCaHFwcDnbjvjJKE1LDZQW58pgWQwtHTRJcFrK+SDaSUJWLQ+pyDrn45bh/MY5d213GCy3bScklcXOpl3NIO6XaPLaCfPcvKl4cXdxcPPFSL4f3HRMYF2tllrx/WXjuKy0u+y+wPDYBuX+JvK/cf8FxOajES41W/Bxm/wWXx0xHS8RLYOGRy1KyAm+JeHFkL0OOLvsruDxmcQnI5wYlBMfFDjzUKoLLY8gFUnBc7MBDrSK4PIZcIAXHBfMYpODyGHKBFBwXzGOQgstjyAVScFwwj0EKLo8hF0jBccE8Bim4PIZcIAXHBfMYpODyGHKBFNjvj2EeA1VtHmvy+5bIBVRwXDCPQao+jyW2jOSFXNanynJ+WfI5vZjHQFW7nMhlY2rExboMwzy2PtUuZyVezKtj5LI+NeDCfiL6AxQxj61PDfJYgcT5HEXkAqpYLlplKQ4xj61PsXmsLPnakW6LXEDVjIt5iHlsfYrNY0lZVrC+tKAmXOwjzGPrU2weCzYjF1CFuejPhXM0K2EeA1U4jxES9Zxe5AKqMJfI5/RiHgNVOI8lcc/pRS6giuBSxkvdc3oxj4EqnMdUfWFCLm0phot6qeeCeQxSEXlME3JpS1FcYp47inkMVOE8liCXDQiOC+YxSE3Mx+2YCnExjJELpCZ1D/stuHie02vaIxdAeSJFyPVhpSb7Ob311igwhbjUN6PWJRJQqP+69D9SLR8a9XwD3gAAAABJRU5ErkJggg==" ALT="Acquisition.lvlib:Destroy Sync Refnums.vi"></P>
+<HR>
+<H3>List of SubVIs and Express VIs with Configuration Information</H3>
+<HR>
+<H3>VI Revision History</H3>
+<P>&quot;Acquisition.lvlib:Destroy Sync Refnums.vi History&quot;</P>
+<P>Current Revision:   35</P>
+<HR>
+<H3>Position in Hierarchy</H3>
+<P><IMG src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAADIAAAA1CAMAAAA05Eg7AAADAFBMVEX//////8z//5n//2b//zP//wD/zP//zMz/zJn/zGb/zDP/zAD/mf//mcz/mZn/mWb/mTP/mQD/Zv//Zsz/Zpn/Zmb/ZjP/ZgD/M///M8z/M5n/M2b/MzP/MwD/AP//AMz/AJn/AGb/ADP/AADM///M/8zM/5nM/2bM/zPM/wDMzP/MzMzMzJnMzGbMzDPMzADMmf/MmczMmZnMmWbMmTPMmQDMZv/MZszMZpnMZmbMZjPMZgDMM//MM8zMM5nMM2bMMzPMMwDMAP/MAMzMAJnMAGbMADPMAACZ//+Z/8yZ/5mZ/2aZ/zOZ/wCZzP+ZzMyZzJmZzGaZzDOZzACZmf+ZmcyZmZmZmWaZmTOZmQCZZv+ZZsyZZpmZZmaZZjOZZgCZM/+ZM8yZM5mZM2aZMzOZMwCZAP+ZAMyZAJmZAGaZADOZAABm//9m/8xm/5lm/2Zm/zNm/wBmzP9mzMxmzJlmzGZmzDNmzABmmf9mmcxmmZlmmWZmmTNmmQBmZv9mZsxmZplmZmZmZjNmZgBmM/9mM8xmM5lmM2ZmMzNmMwBmAP9mAMxmAJlmAGZmADNmAAAz//8z/8wz/5kz/2Yz/zMz/wAzzP8zzMwzzJkzzGYzzDMzzAAzmf8zmcwzmZkzmWYzmTMzmQAzZv8zZswzZpkzZmYzZjMzZgAzM/8zM8wzM5kzM2YzMzMzMwAzAP8zAMwzAJkzAGYzADMzAAAA//8A/8wA/5kA/2YA/zMA/wAAzP8AzMwAzJkAzGYAzDMAzAAAmf8AmcwAmZkAmWYAmTMAmQAAZv8AZswAZpkAZmYAZjMAZgAAM/8AM8wAM5kAM2YAMzMAMwAAAP8AAMwAAJkAAGYAADPuAADdAAC7AACqAACIAAB3AABVAABEAAAiAAARAAAA7gAA3QAAuwAAqgAAiAAAdwAAVQAARAAAIgAAEQAAAO4AAN0AALsAAKoAAIgAAHcAAFUAAEQAACIAABHu7u7d3d27u7uqqqqIiIh3d3dVVVVEREQiIiIREREAAAD7CIKZAAABDUlEQVR4Xu2UUQ7DIAiGffE0HmTH5hC7TV9cUQGx4FzTJsuyv4kxyucvagnhhPIHImS6oNIPIytHNSJpIgfJaV8tOY2J7DYZrezmKpczuSTvtNDfRkBCYOg5CCQOBGZa7zIE9nGgONoQ9d4ikR/PMhJiiCtIOWRoLvjlbnc28mAVF3GqCMyRSEwgxkbCRmq5iJOLlAcDlEvOndN+ZSr0iFAWjanbdZFy3ZRD81lB+lywhwmq0OHxg84FARy0kCeL168OuI59lR0iZ1UB98HoexGHCSI/snaYIlwaisNKuZCiVBwWilJX+rbvKn1TmYjoECkzLqKbccYYLwPV4WakJeIizvFYU8HRQshfd+sFKXxEATVSIdAAAAAASUVORK5CYII=" ALT="Acquisition.lvlib:Destroy Sync Refnums.vi"></P>
+<HR>
+<H3>Iconified Cluster Constants</H3>
+</BODY>
+</HTML>
