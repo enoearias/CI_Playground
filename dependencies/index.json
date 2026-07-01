@@ -1,8 +1,15 @@
 {
   "schema": 1,
   "repo": "enoearias/CI_Playground",
-  "sha": "e33ff7585389fc593ea4d041ef091f65140298c6",
+  "sha": "d782398170587e0b6a889f576021c9e5494efbd2",
   "revisions": [
+    {
+      "sha": "d782398170587e0b6a889f576021c9e5494efbd2",
+      "short": "d782398",
+      "message": "ci: adopt LabVIEW CI tooling v4.3.4 (config + scripts; 20 workflow file(s) deferred)",
+      "author": "github-actions[bot]",
+      "date": "2026-07-01T20:20:13Z"
+    },
     {
       "sha": "e33ff7585389fc593ea4d041ef091f65140298c6",
       "short": "e33ff75",

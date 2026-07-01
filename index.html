@@ -102,11 +102,29 @@
     .cidash-chip.cc-fail{background:rgba(248,81,73,.16);color:#f85149;border-color:rgba(248,81,73,.4)}
     .cidash-chip.cc-warn{background:rgba(210,153,34,.16);color:#d29922;border-color:rgba(210,153,34,.35)}
     .cidash-chip.cc-info{background:rgba(56,139,253,.16);color:#58a6ff;border-color:rgba(56,139,253,.3)}
+    /* Split pill: a neutral container whose individual values colour themselves
+       (used when one cell reports two values that can differ in state, e.g. the
+       Windows / Linux mass-compile percentages). Each value has an instant
+       (no-delay) mouse-over naming its platform via data-tip. */
+    .cidash-chip.cc-split{background:rgba(110,118,129,.14);color:var(--fg-muted);border-color:rgba(110,118,129,.32)}
+    .cidash-chip .cidash-vseg{position:relative;font-weight:700}
+    .cidash-chip .cidash-vseg.cc-pass{color:#3fb950}
+    .cidash-chip .cidash-vseg.cc-fail{color:#f85149}
+    .cidash-chip .cidash-vseg.cc-warn{color:#d29922}
+    .cidash-chip .cidash-vseg-sep{opacity:.5;margin:0 4px;font-weight:400}
+    .cidash-chip .cidash-vseg[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%);background:#1c2128;color:#e6edf3;border:1px solid #30363d;padding:2px 7px;border-radius:6px;font-size:.95em;font-weight:600;white-space:nowrap;pointer-events:none;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+    .cidash-chip .cidash-vseg[data-tip]:hover::before{content:"";position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);border:5px solid transparent;border-top-color:#30363d;pointer-events:none;z-index:30}
     @media(prefers-color-scheme:light){
       .cidash-chip.cc-pass{background:#dafbe1;color:#1a7f37;border-color:#2da44e55}
       .cidash-chip.cc-fail{background:#ffebe9;color:#cf222e;border-color:#cf222e44}
       .cidash-chip.cc-warn{background:#fff8c5;color:#9a6700;border-color:#9a670055}
       .cidash-chip.cc-info{background:#ddf4ff;color:#0969da;border-color:#0969da44}
+      .cidash-chip.cc-split{background:#eaeef2;color:#57606a;border-color:#d0d7de}
+      .cidash-chip .cidash-vseg.cc-pass{color:#1a7f37}
+      .cidash-chip .cidash-vseg.cc-fail{color:#cf222e}
+      .cidash-chip .cidash-vseg.cc-warn{color:#9a6700}
+      .cidash-chip .cidash-vseg[data-tip]:hover::after{background:#fff;color:#1f2328;border-color:#d0d7de;box-shadow:0 2px 8px rgba(140,149,159,.35)}
+      .cidash-chip .cidash-vseg[data-tip]:hover::before{border-top-color:#d0d7de}
     }
     /* VIDiff "diff stat": different / new / deleted VI counts for a revision.
        Colour-coded modified-amber / added-green / deleted-red with grey slashes;
@@ -1638,7 +1656,7 @@
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — CI_Playground</h1>
-  <div class="sub">Last updated: 2026-07-01 19:59 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-07-01 21:43 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
   <div class="nav">
     <a href="https://github.com/enoearias/CI_Playground">GitHub</a>
     <a href="https://github.com/enoearias/CI_Playground/actions">Actions</a>
@@ -1682,6 +1700,24 @@
       </tr>
     </thead>
     <tbody>
+    <tr data-project="false" data-deponly="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(150,42%,45%)" title="github-actions[bot]" aria-hidden="true">G</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=d782398170587e0b6a889f576021c9e5494efbd2" class="cidash-rev-msg" title="ci: adopt LabVIEW CI tooling v4.3.4 (config + scripts; 20 workflow file(s) defer">ci: adopt LabVIEW CI tooling v4.3.4 (config + scripts; 20 workflow file(s) defer</a></div>
+            <div class="cidash-rev-meta"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=d782398170587e0b6a889f576021c9e5494efbd2" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">d782398</a><span class="cidash-rev-dot">&middot;</span>github-actions[bot]<span class="cidash-rev-dot">&middot;</span>2026-07-01</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
     <tr data-project="true" data-deponly="false">
       <td class="cidash-rev">
         <div class="cidash-rev-wrap">
