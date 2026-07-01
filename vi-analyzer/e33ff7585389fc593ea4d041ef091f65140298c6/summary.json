@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "sha": "e33ff7585389fc593ea4d041ef091f65140298c6",
+    "short": "e33ff75",
+    "platform": "windows",
+    "repo": "enoearias/CI_Playground",
+    "pages_url": "https://enoearias.github.io/CI_Playground",
+    "pages_base": "../..",
+    "commit": {
+      "message": "Changed FP Color",
+      "author": "Enrique Noe Arias",
+      "date": "2026-07-01T13:30:22-06:00"
+    },
+    "generated_utc": "2026-07-01 19:54 UTC",
+    "analysis_date": "Wednesday, July 1, 2026 7:54:42 PM",
+    "duration": "00:08:10.58"
+  },
+  "summary": {
+    "vis_analyzed": 279,
+    "tests_run": 29016,
+    "passed": 28141,
+    "failed": 875,
+    "skipped": 0,
+    "findings": 908,
+    "vis_with_findings": 240
+  },
+  "errors": {
+    "vi_not_loadable": 0,
+    "test_not_loadable": 0,
+    "test_not_runnable": 0,
+    "test_error_out": 0
+  },
+  "rule_counts": [
+    {
+      "test": "Enabled Debugging",
+      "severity": "performance",
+      "count": 197,
+      "vi_count": 197
+    },
+    {
+      "test": "Reentrant VI Issues",
+      "severity": "correctness",
+      "count": 134,
+      "vi_count": 80
+    },
+    {
+      "test": "Wire Bends",
+      "severity": "style",
+      "count": 109,
+      "vi_count": 73
+    },
+    {
+      "test": "Alignment Grid Setting",
+      "severity": "style",
+      "count": 93,
+      "vi_count": 93
+    },
+    {
+      "test": "Error Cluster Wired",
+      "severity": "correctness",
+      "count": 87,
+      "vi_count": 55
+    },
+    {
+      "test": "Spell Check",
+      "severity": "documentation",
+      "count": 80,
+      "vi_count": 57
+    },
+    {
+      "test": "Diagram Size",
+      "severity": "style",
+      "count": 35,
+      "vi_count": 35
+    },
+    {
+      "test": "Control Alignment",
+      "severity": "style",
+      "count": 33,
+      "vi_count": 33
+    },
+    {
+      "test": "Backwards Wires",
+      "severity": "style",
+      "count": 32,
+      "vi_count": 32
+    },
+    {
+      "test": "Approved Bookmark Tags",
+      "severity": "style",
+      "count": 25,
+      "vi_count": 23
+    },
+    {
+      "test": "Panel Size and Position",
+      "severity": "style",
+      "count": 15,
+      "vi_count": 13
+    },
+    {
+      "test": "Wires Under Objects",
+      "severity": "style",
+      "count": 10,
+      "vi_count": 10
+    },
+    {
+      "test": "Built Application Compatibility",
+      "severity": "correctness",
+      "count": 9,
+      "vi_count": 5
+    },
+    {
+      "test": "Cyclomatic Complexity",
+      "severity": "style",
+      "count": 6,
+      "vi_count": 6
+    },
+    {
+      "test": "Fan Out",
+      "severity": "style",
+      "count": 6,
+      "vi_count": 6
+    },
+    {
+      "test": "Globals and Locals",
+      "severity": "style",
+      "count": 6,
+      "vi_count": 5
+    },
+    {
+      "test": "Node Count",
+      "severity": "style",
+      "count": 6,
+      "vi_count": 6
+    },
+    {
+      "test": "Wire Crossings",
+      "severity": "style",
+      "count": 5,
+      "vi_count": 3
+    },
+    {
+      "test": "Diagram Count",
+      "severity": "style",
+      "count": 4,
+      "vi_count": 4
+    },
+    {
+      "test": "Font Usage",
+      "severity": "style",
+      "count": 4,
+      "vi_count": 4
+    },
+    {
+      "test": "Wire Sources",
+      "severity": "style",
+      "count": 4,
+      "vi_count": 4
+    },
+    {
+      "test": "In Place Element Structure Usage",
+      "severity": "performance",
+      "count": 2,
+      "vi_count": 1
+    },
+    {
+      "test": "Overlapping Controls",
+      "severity": "correctness",
+      "count": 2,
+      "vi_count": 1
+    },
+    {
+      "test": "Structure Count",
+      "severity": "style",
+      "count": 2,
+      "vi_count": 2
+    },
+    {
+      "test": "Dialog Controls",
+      "severity": "style",
+      "count": 1,
+      "vi_count": 1
+    },
+    {
+      "test": "Parallelizable Loops",
+      "severity": "performance",
+      "count": 1,
+      "vi_count": 1
+    }
+  ]
+}
