@@ -1,7 +1,7 @@
 ﻿{
-    "version":  "win-bef9d830c541",
+    "version":  "win-48bf13e99410",
     "platform":  "windows",
-    "manifest_url":  "https://enoearias.github.io/CI_Playground/workers/windows/win-bef9d830c541/manifest.html",
-    "build_date":  "2026-06-26T21:06:35Z",
-    "git_sha":  "2420f173a4b8e1d7b2b9f27981975a956dfb92a9"
+    "manifest_url":  "https://enoearias.github.io/CI_Playground/workers/windows/win-48bf13e99410/manifest.html",
+    "build_date":  "2026-07-01T08:56:49Z",
+    "git_sha":  "8d8eab3d9646164b5f7abfcdae4f9fa03ee56629"
 }
