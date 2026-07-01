@@ -203,7 +203,7 @@
     // the install/Configure iframe and its in-flight work. When a refresh comes due
     // with a dialog open, keep re-checking and reload only once it is closed.
     (function () {
-      var REFRESH_MS = 900 * 1000;
+      var REFRESH_MS = 60 * 1000;
       if (!(REFRESH_MS > 0)) return;
       function tick() {
         if (lvciModalOpen()) { setTimeout(tick, 5000); return; }
@@ -1128,8 +1128,8 @@
     // activities to queue. Reuses dispatchCells (oldest-first, snapshots as one
     // backfill) + the same token and optimistic-queued bridge as every other
     // dispatch on the dashboard.
-    var HIST = [{"sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9", "short": "2420f17", "msg": "Merge branch 'develop'", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}, {"sha": "33a9aa75248f5bbb1e9fdee6d4b5c16e83659414", "short": "33a9aa7", "msg": "Adding a project with a new VIPC", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}];                        // [{sha, short, msg}] newest-first (project revisions)
-    var RAN = {"masscompile": 1, "snapshots": 1, "vi-analyzer": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
+    var HIST = [{"sha": "e33ff7585389fc593ea4d041ef091f65140298c6", "short": "e33ff75", "msg": "Changed FP Color", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}, {"sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9", "short": "2420f17", "msg": "Merge branch 'develop'", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}, {"sha": "33a9aa75248f5bbb1e9fdee6d4b5c16e83659414", "short": "33a9aa7", "msg": "Adding a project with a new VIPC", "snapshots2": {"windows": {"have": 0, "total": 197}, "linux": {"have": 0, "total": 197}}}];                        // [{sha, short, msg}] newest-first (project revisions)
+    var RAN = {"masscompile": 1, "snapshots": 1, "unit-tests": 1, "vi-analyzer": 1, "vidiff": 1};                     // {cap:1} caps with a result/active run somewhere in history
     var CAP_META = {                            // label + sub for each known capability
       'snapshots':   ['VI Snapshots', 'Renders every changed VI (classic HTML snapshots)'],
       'snapshots2':  ['VI Browser 2.0 Snapshots', 'Renders position-aware snapshots for the VI Browser 2.0 view'],
@@ -1638,7 +1638,7 @@
   </script>
   <main class="lvci-main">
   <h1>CI Dashboard — CI_Playground</h1>
-  <div class="sub">Last updated: 2026-07-01 17:56 UTC &nbsp;|&nbsp; Auto-refreshes every 15 min</div>
+  <div class="sub">Last updated: 2026-07-01 19:30 UTC &nbsp;|&nbsp; Live — refreshing every 60 s while CI runs</div>
   <div class="nav">
     <a href="https://github.com/enoearias/CI_Playground">GitHub</a>
     <a href="https://github.com/enoearias/CI_Playground/actions">Actions</a>
@@ -1682,6 +1682,24 @@
       </tr>
     </thead>
     <tbody>
+    <tr data-project="true" data-deponly="false">
+      <td class="cidash-rev">
+        <div class="cidash-rev-wrap">
+          <span class="cidash-avatar" style="background:hsl(139,42%,45%)" title="Enrique Noe Arias" aria-hidden="true">E</span>
+          <div class="cidash-rev-body">
+            <div class="cidash-rev-line1"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=e33ff7585389fc593ea4d041ef091f65140298c6" class="cidash-rev-msg" title="Changed FP Color">Changed FP Color</a><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=e33ff7585389fc593ea4d041ef091f65140298c6" class="snap-glyph" title="Snapshots exist for this revision (260 of 261 VIs)" aria-label="Snapshots exist for this revision (260 of 261 VIs)"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" style="vertical-align:text-bottom;flex:0 0 auto"><path d="M1.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h.94l8.5-8.5a.25.25 0 0 1 .354 0l1.756 1.757V2.75a.25.25 0 0 0-.25-.25H1.75ZM14.5 9.232 11.06 5.79 3.852 13h9.898a.25.25 0 0 0 .25-.25V9.232ZM1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25V2.75C0 1.784.784 1 1.75 1ZM5.5 6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg></a></div>
+            <div class="cidash-rev-meta"><a href="https://enoearias.github.io/CI_Playground/vi-snapshots/index.html?sha=e33ff7585389fc593ea4d041ef091f65140298c6" class="cidash-rev-sha" title="Browse this revision's VIs in the VI Browser">e33ff75</a><span class="cidash-rev-dot">&middot;</span>Enrique Noe Arias<span class="cidash-rev-dot">&middot;</span>2026-07-01</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center" class="cidash-active-cell" data-cap="masscompile" data-sha="e33ff7585389fc593ea4d041ef091f65140298c6" data-parent="8d8eab3d9646164b5f7abfcdae4f9fa03ee56629" data-short="e33ff75" data-active="true"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28542548383" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>compile</a></span></td>
+      <td style="text-align:center" class="cidash-active-cell" data-cap="vi-analyzer" data-sha="e33ff7585389fc593ea4d041ef091f65140298c6" data-parent="8d8eab3d9646164b5f7abfcdae4f9fa03ee56629" data-short="e33ff75" data-active="true"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28542548451" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>analyze</a></span></td>
+      <td style="text-align:center" class="cidash-active-cell" data-cap="vidiff" data-sha="e33ff7585389fc593ea4d041ef091f65140298c6" data-parent="8d8eab3d9646164b5f7abfcdae4f9fa03ee56629" data-short="e33ff75" data-active="true"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28542548373" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>diff</a></span></td>
+      <td style="text-align:center" class="cidash-active-cell" data-cap="snapshots" data-sha="e33ff7585389fc593ea4d041ef091f65140298c6" data-parent="8d8eab3d9646164b5f7abfcdae4f9fa03ee56629" data-short="e33ff75" data-active="true"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28542548398" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>snapshots</a></span></td>
+      <td style="text-align:center" class="cidash-active-cell" data-cap="unit-tests" data-sha="e33ff7585389fc593ea4d041ef091f65140298c6" data-parent="8d8eab3d9646164b5f7abfcdae4f9fa03ee56629" data-short="e33ff75" data-active="true"><span class="run-badge" title="Running — click to view progress"><a href="https://github.com/enoearias/CI_Playground/actions/runs/28542548424" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:5px"><span class="run-spin"></span>tests</a></span></td>
+      <td style="text-align:center;color:var(--fg-muted);font-size:.75em">—</td>
+    </tr>
+
     <tr data-project="false" data-deponly="false">
       <td class="cidash-rev">
         <div class="cidash-rev-wrap">
