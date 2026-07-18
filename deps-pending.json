@@ -1,1 +1,1 @@
-{"schema": 1, "pending": false, "repo": "enoearias/CI_Playground", "sha": "d782398170587e0b6a889f576021c9e5494efbd2", "packages": [], "vipcs": [], "dragon": [], "containers": [], "generated": "2026-07-18T13:15:04Z"}
+{"schema": 1, "pending": true, "repo": "enoearias/CI_Playground", "sha": "d782398170587e0b6a889f576021c9e5494efbd2", "packages": ["delacor_lib_qmh-7.1.2.1547"], "vipcs": ["src/dependencies.vipc"], "dragon": [], "containers": ["windows"], "generated": "2026-07-18T14:53:20Z"}
