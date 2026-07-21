@@ -15,15 +15,21 @@
     :root{
       --bg:#0d1117;--surface:#161b22;--surface2:#1c2230;--border:#30363d;
       --fg:#e6edf3;--fg-muted:#8b949e;--link:#58a6ff;--accent:#238636;
-      --warn:#d29922;--danger:#f85149;--code:#79c0ff;--plain:#a371f7;
+      --warn-clr:#d29922;--danger:#f85149;--code-clr:#79c0ff;--plain:#a371f7;
     }
     @media(prefers-color-scheme:light){
       :root{
         --bg:#ffffff;--surface:#f6f8fa;--surface2:#eef1f5;--border:#d0d7de;
         --fg:#1f2328;--fg-muted:#57606a;--link:#0969da;--accent:#1f883d;
-        --warn:#9a6700;--danger:#cf222e;--code:#0550ae;--plain:#8250df;
+        --warn-clr:#9a6700;--danger:#cf222e;--code-clr:#0550ae;--plain:#8250df;
       }
     }
+    /* Re-assert page-specific tokens the shared header's theme toggle doesn't
+       manage, so a forced Light/Dark choice fully re-themes this page. The
+       syntax-colour tokens are named *-clr to avoid colliding with the header's
+       standard --code / --warn UI tokens. */
+    :root[data-lvci-theme=dark]{--surface2:#1c2230;--warn-clr:#d29922;--danger:#f85149;--code-clr:#79c0ff;--plain:#a371f7}
+    :root[data-lvci-theme=light]{--surface2:#eef1f5;--warn-clr:#9a6700;--danger:#cf222e;--code-clr:#0550ae;--plain:#8250df}
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -60,7 +66,7 @@
                color:var(--accent);font-weight:700}
     .part-head:first-of-type{margin-top:30px}
     .content p.lead-in{font-size:.98em;color:var(--fg-muted);margin:0 0 16px}
-    code{background:var(--surface);padding:2px 6px;border-radius:5px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.86em;color:var(--code)}
+    code{background:var(--surface);padding:2px 6px;border-radius:5px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.86em;color:var(--code-clr)}
     pre{background:var(--surface);border:1px solid var(--border);padding:14px 16px;border-radius:8px;overflow-x:auto;
         margin:14px 0;font-size:.82em;line-height:1.55}
     pre code{background:none;padding:0;border-radius:0;color:var(--fg)}
@@ -71,12 +77,12 @@
     .note,.warn,.tip,.plain{margin:16px 0;padding:12px 16px;border:1px solid var(--border);border-left-width:4px;
          border-radius:6px;background:var(--surface);font-size:.92em}
     .note{border-left-color:var(--link)}
-    .warn{border-left-color:var(--warn)}
+    .warn{border-left-color:var(--warn-clr)}
     .tip{border-left-color:var(--accent)}
     .plain{border-left-color:var(--plain)}
     .note .lbl,.warn .lbl,.tip .lbl,.plain .lbl{display:block;font-weight:700;font-size:.8em;text-transform:uppercase;
          letter-spacing:.05em;margin-bottom:4px}
-    .note .lbl{color:var(--link)}.warn .lbl{color:var(--warn)}.tip .lbl{color:var(--accent)}.plain .lbl{color:var(--plain)}
+    .note .lbl{color:var(--link)}.warn .lbl{color:var(--warn-clr)}.tip .lbl{color:var(--accent)}.plain .lbl{color:var(--plain)}
     /* Glossary */
     dl.glossary{margin:14px 0}
     dl.glossary dt{font-weight:700;color:var(--fg);margin-top:15px}
@@ -669,7 +675,9 @@ flowchart TD
         the revisions missing that result), or <strong>Re-run</strong> (queue every selected revision, replacing
         existing results). An activity is offered for Re-run when any selected revision has a result, an empty cell, or
         an <em>in-flight</em> queued/running cell — the latter are tagged <code>cidash-active-cell</code> so a re-run
-        replaces the in-flight run via concurrency instead of greying out as &ldquo;none in scope.&rdquo;</p>
+        replaces the in-flight run via concurrency instead of greying out as &ldquo;none in scope.&rdquo; The optimistic
+        &ldquo;Queued&rdquo; badge overlays that in-flight cell too, so re-running the latest revision's still-running
+        activity shows its Queued spinner immediately rather than silently doing nothing.</p>
       <p>The Populate-history chooser offers an opt-in <strong>"keep one container warm across revisions"</strong>
         checkbox, shown only when at least one selected activity has a warm-container backfill workflow installed
         (Windows Mass Compile, VI Analyzer, Unit Tests, Antidoc). It is always <strong>off by default</strong> and
@@ -876,7 +884,8 @@ mass-compile:
         <li><strong>Upgrade adds or replaces dependencies.</strong> Later you add or change project
           <code>.vipc</code> / <code>.dragon</code> files that declare the add-on packages your action runners need.
           The dashboard compares those declarations against what is baked into the current worker manifest; if any are
-          missing it shows a persistent <em>&ldquo;dependencies need to be installed&rdquo;</em> banner. Applying it is
+          missing it shows a persistent <em>&ldquo;dependencies need to be installed&rdquo;</em> banner, and the
+          Dependencies page&rsquo;s update panel itemizes exactly which files and packages are pending. Applying it is
           <strong>opt-in</strong>: from the Dependencies page you dispatch the dependency build
           (<code>build-labview-image.yml</code>, &ldquo;Build LabVIEW CI Image&rdquo;), which runs on a Windows runner and
           this time starts <code>FROM</code> the base and applies a thin dependency layer
@@ -948,9 +957,12 @@ ghcr.io/&lt;lcwc-owner&gt;/&lt;lcwc-repo&gt;-labview-base   # the shared base, o
         VIPM packages baked in, so a worker image is fully auditable.</p>
       <p>The machine-readable <code>manifest.json</code> records installed VIPM packages in
         <code>vipm_packages</code> (<code>name</code>, <code>version</code>, and VIPC-style <code>label</code>) plus
-        the raw <code>vipm list --installed</code> output in <code>vipm_raw</code>. The Dependencies page uses that
-        installed-package inventory as the source of truth before falling back to older <code>vipc[].packages</code>
-        manifests.</p>
+        the raw <code>vipm list --installed</code> output in <code>vipm_raw</code>. The Dependencies page unions that
+        installed-package inventory with the manifest&rsquo;s own <code>vipc[].packages</code> list when deciding what is
+        baked. Because VIPM records versions with a leading <code>v</code> (e.g. <code>v0.5.0.1</code>) while VIPC files
+        declare the bare form (<code>0.5.0.1</code>), the comparison normalizes that <code>v</code> prefix &mdash; without
+        it, correctly-baked packages would be reported as missing and the &ldquo;dependencies need to be installed&rdquo;
+        banner would never clear.</p>
 
       <h3>When images rebuild</h3>
       <p>A worker rebuild is a heavy, opt-in operation. It runs when you apply a dependency update from the dashboard's
@@ -1186,20 +1198,45 @@ docker run --rm `
         <code>0</code> = all compiled; <code>3</code> = partial (some bad VIs, not a container failure); any other
         non-zero = a real container/configuration error. The Python reader also handles UTF-16 BOMs that Windows
         <code>Tee-Object</code> can emit.</div>
+      <p>The dashboard's <strong>Mass Compile</strong> column colours the compiled-percentage badge with
+        configurable thresholds (like the Unit Tests column) so revisions read at a glance instead of a near-flat
+        amber: <strong>green</strong> at or above <code>greenAtLeast</code> (default 95%), <strong>yellow</strong>
+        at or above <code>yellowAtLeast</code> (default 80%), and <strong>red</strong> below <code>redBelow</code>
+        (default 80%). A true compile failure (LabVIEW could not finish the compile &mdash; <code>status: failed</code>,
+        which zeroes the percentage) is drawn as a <strong>solid, bright-red filled pill</strong> to distinguish it
+        from a merely low percentage. Override the thresholds in <code>.github/labview-ci.yml</code>:</p>
+      <pre><code>massCompile:
+  thresholds:
+    compiledPercent:
+      greenAtLeast: 95
+      yellowAtLeast: 80
+      redBelow: 80</code></pre>
 
       <h3 id="cap-vianalyzer">16.2 VI Analyzer <a class="anchor" href="#cap-vianalyzer">#</a></h3>
       <p>Driver: <code>run-vi-analyzer.ps1</code> <span class="pill win">Windows</span>; report:
         <code>build-analyzer-report.py</code>. It runs
         <code>LabVIEWCLI -OperationName RunVIAnalyzer</code> against a <code>.viancfg</code> configuration. The
-        default template (<code>via-config-default.viancfg</code>) has a <code>__WORKSPACE_PATH__</code> placeholder
-        substituted with the mounted workspace; an empty <code>TestConfigData</code> means "run the full built-in
-        suite".</p>
+        full built-in suite runs in <em>directory mode</em> — passing the mounted workspace directory itself makes
+        LabVIEWCLI apply every default test to every VI under it. A committed <code>.viancfg</code> instead applies its
+        own <code>TestConfigData</code>; a config whose <code>TestConfigData</code> is <em>empty</em> runs zero tests
+        (a blank report), so when a project commits a config but doesn't pick one, the pipeline auto-selects the first
+        <code>.viancfg</code> in the repo — excluding CI-internal directories (<code>.github/</code>,
+        <code>actions/</code>, <code>ci-out/</code>, <code>build/</code>) so a bundled action-source template
+        (<code>via-config-default.viancfg</code>, which has empty <code>TestConfigData</code>) is never chosen.</p>
       <p>Configuration is layered. The manifest's <code>config.viAnalyzer</code> can name a <code>default</code>
         config and a list of per-path <code>rules</code> (e.g. strict rules for <code>src/critical/**</code>,
         relaxed for <code>tests/**</code>). VI Analyzer runs on Windows only; Linux is not offered in the
         configurator or Populate history. The report builder maps each failed test to a category
         (correctness / performance / style / documentation) for the dashboard's coloured breakdown and preserves the
         LabVIEW-native HTML as <code>raw.html</code>.</p>
+      <p>Before analyzing, the driver runs a headless <strong>Mass Compile</strong> to upgrade the project's VIs
+        to the image's LabVIEW version &mdash; VI Analyzer silently skips VIs saved in an older version, which
+        would otherwise report &ldquo;0&nbsp;VIs analyzed.&rdquo; That pre-pass compiles each top-level project
+        folder <em>individually</em> and <strong>excludes the CI's own tooling</strong> under <code>.github/</code>
+        (plus <code>.git/</code>, <code>actions/</code>, <code>ci-out/</code>, <code>build/</code>), so a broken
+        tooling VI &mdash; e.g. the VI Browser render engine under <code>.github/labview/toimages</code>, whose
+        dependencies live only in its own Linux image &mdash; can no longer fail the compile before the project
+        VIs are upgraded.</p>
 
       <h3 id="cap-vidiff">16.3 VIDiff <a class="anchor" href="#cap-vidiff">#</a></h3>
       <p>Driver: <code>vidiff.ps1</code> / <code>.sh</code>; history walker: <code>vidiff-backfill.ps1</code> /
