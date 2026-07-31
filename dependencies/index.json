@@ -2602,13 +2602,15 @@
       "platform": "linux",
       "defaultTag": "latest",
       "tag": "latest",
-      "ready": false,
-      "packages": [],
+      "ready": true,
+      "packages": [
+        "delacor_lib_qmh-7.1.2.1547"
+      ],
       "failed_packages": [],
-      "nipkg_ready": false,
+      "nipkg_ready": true,
       "nipkg_packages": [],
-      "labview_version": "",
-      "version": "latest"
+      "labview_version": "2026",
+      "version": "linux-cb5d9d78d179"
     }
   ]
 }
