@@ -1,119 +1,151 @@
 {
   "schema": 1,
   "repo": "enoearias/CI_Playground",
-  "sha": "b84a83fea963ee8d447a18f7cc7d4d18fba24a52",
+  "sha": "4cb3616f2862a2cc3c3804f1109f6cdade832a2e",
   "revisions": [
     {
       "sha": "4cb3616f2862a2cc3c3804f1109f6cdade832a2e",
       "short": "4cb3616",
       "message": "ci: adopt LabVIEW CI tooling v4.16.3 (config + scripts; 25 workflow file(s) deferred)",
       "author": "github-actions[bot]",
-      "date": "2026-10-06T00:08:55Z"
+      "date": "2026-10-06T00:08:55Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "b84a83fea963ee8d447a18f7cc7d4d18fba24a52",
       "short": "b84a83f",
       "message": "ci: adopt LabVIEW CI tooling v4.4.12 (config + scripts; 20 workflow file(s) deferred)",
       "author": "github-actions[bot]",
-      "date": "2026-07-21T14:22:23Z"
+      "date": "2026-07-21T14:22:23Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "d782398170587e0b6a889f576021c9e5494efbd2",
       "short": "d782398",
       "message": "ci: adopt LabVIEW CI tooling v4.3.4 (config + scripts; 20 workflow file(s) deferred)",
       "author": "github-actions[bot]",
-      "date": "2026-07-01T20:20:13Z"
+      "date": "2026-07-01T20:20:13Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "e33ff7585389fc593ea4d041ef091f65140298c6",
       "short": "e33ff75",
       "message": "Changed FP Color",
       "author": "Enrique Noe Arias",
-      "date": "2026-07-01T19:30:22Z"
+      "date": "2026-07-01T19:30:22Z",
+      "project": true,
+      "dep_only": false
     },
     {
       "sha": "8d8eab3d9646164b5f7abfcdae4f9fa03ee56629",
       "short": "8d8eab3",
       "message": "ci: adopt LabVIEW CI tooling v4.3.3 (config + scripts; 20 workflow file(s) deferred)",
       "author": "github-actions[bot]",
-      "date": "2026-06-30T00:32:15Z"
+      "date": "2026-06-30T00:32:15Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "2420f173a4b8e1d7b2b9f27981975a956dfb92a9",
       "short": "2420f17",
       "message": "Merge branch 'develop'",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-26T17:35:53Z"
+      "date": "2026-06-26T17:35:53Z",
+      "project": true,
+      "dep_only": false
     },
     {
       "sha": "33a9aa75248f5bbb1e9fdee6d4b5c16e83659414",
       "short": "33a9aa7",
       "message": "Adding a project with a new VIPC",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-26T17:34:55Z"
+      "date": "2026-06-26T17:34:55Z",
+      "project": true,
+      "dep_only": false
     },
     {
       "sha": "f98c5dbc605b48b41e680f38e24845fab50d3300",
       "short": "f98c5db",
       "message": "ci: adopt LabVIEW CI tooling v4.1.35 (config + scripts; 20 workflow file(s) deferred)",
       "author": "github-actions[bot]",
-      "date": "2026-06-26T17:28:06Z"
+      "date": "2026-06-26T17:28:06Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "ef416cfa2e5b442cae62b4046b9aa6321f8ea5e3",
       "short": "ef416cf",
       "message": "Merge pull request #3 from enoearias/labview-ci/reconfigure-28052506067",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T21:13:44Z"
+      "date": "2026-06-23T21:13:44Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "0e075bbcf9776fcb6f3c87d9e2945604551d12eb",
       "short": "0e075bb",
       "message": "Merge pull request #2 from enoearias/main",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T20:20:38Z"
+      "date": "2026-06-23T20:20:38Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "992d468d59cf92b3eb7494ebdfd694a52ffed9bb",
       "short": "992d468",
       "message": "Merge pull request #1 from enoearias/labview-ci/reconfigure-28052506067",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T20:07:17Z"
+      "date": "2026-06-23T20:07:17Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "47df66ffae52b1dfa19aeed803428c8e42a8ad88",
       "short": "47df66f",
       "message": "ci: reconfigure LabVIEW CI settings",
       "author": "github-actions[bot]",
-      "date": "2026-06-23T19:47:16Z"
+      "date": "2026-06-23T19:47:16Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "b7735e00323503bdafab4bc2cdff5a07842c5103",
       "short": "b7735e0",
       "message": "Readme modified to trigger ci",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T19:33:54Z"
+      "date": "2026-06-23T19:33:54Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "f209f17da4e0d09ec7d035827e0870fc8e6b02e5",
       "short": "f209f17",
       "message": "Add LabVIEW CI",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T15:28:02Z"
+      "date": "2026-06-23T15:28:02Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "45f9edb9a47004adedc164d0ac55caae29a2f92a",
       "short": "45f9edb",
       "message": "Adding Readme for this experimental repo",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T15:15:50Z"
+      "date": "2026-06-23T15:15:50Z",
+      "project": false,
+      "dep_only": false
     },
     {
       "sha": "92dd4a0ac82bea10c6ba1c86901c5fe84d353167",
       "short": "92dd4a0",
       "message": "Initial commit",
       "author": "Enrique Noe Arias",
-      "date": "2026-06-23T15:14:22Z"
+      "date": "2026-06-23T15:14:22Z",
+      "project": false,
+      "dep_only": false
     }
   ],
   "config": {
@@ -126,12 +158,40 @@
   },
   "vipc": [
     {
+      "path": ".github/labview/antidoc/antidoc.vipc",
+      "role": "capability",
+      "capability": "antidoc",
+      "tooling": false,
+      "configured": false,
+      "monitored": true,
+      "monitorOn": [
+        "windows"
+      ],
+      "locked": false,
+      "packages": [
+        "graphbuilder-2.3.0.7",
+        "jki_lib_state_machine-2024.0.3.23",
+        "jki_rsc_toolkits_palette-1.1-1",
+        "wiresmith_technology_lib_g_cli-3.0.1.98",
+        "wovalab_lib_antidoc-3.3.1.879",
+        "wovalab_lib_antidoc_add_on_labview_project_documentation-3.2.0.358",
+        "wovalab_lib_antidoc_add_on_labview_toolkit_documentation-3.0.0.77",
+        "wovalab_lib_antidoc_cli-3.4.0.126",
+        "wovalab_lib_asciidoc_for_labview-1.12.1.492"
+      ],
+      "error": ""
+    },
+    {
       "path": ".github/labview/vipm/ci-tooling.vipc",
       "role": "core",
       "capability": "",
       "tooling": true,
       "configured": true,
       "monitored": true,
+      "monitorOn": [
+        "windows",
+        "linux"
+      ],
       "locked": true,
       "packages": [
         "dataflow_g_lib_g_image-0.5.0.1",
@@ -149,6 +209,10 @@
       "tooling": false,
       "configured": true,
       "monitored": true,
+      "monitorOn": [
+        "windows",
+        "linux"
+      ],
       "locked": false,
       "packages": [
         "delacor_lib_qmh-7.1.2.1547"
@@ -226,7 +290,7 @@
   ],
   "dragon": {
     "available": false,
-    "column": "winExp",
+    "column": "windows",
     "ready": false,
     "health": "",
     "manifest_version": "",
