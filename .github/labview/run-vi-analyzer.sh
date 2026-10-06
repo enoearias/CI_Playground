@@ -1,212 +1,277 @@
 #!/usr/bin/env bash
 # =============================================================================
-# run-vi-analyzer.sh — Runs LabVIEW VI Analyzer in a Linux container
+# run-vi-analyzer.sh - Runs LabVIEW VI Analyzer in a Linux container
 # =============================================================================
+# Linux counterpart of run-vi-analyzer.ps1. Produces the SAME native VI Analyzer
+# HTML report (index.html) that build-analyzer-report.py parses into the friendly,
+# navigable report on the runner. Deployed under vi-analyzer/<sha>/linux/ so the
+# dashboard can show the Windows and Linux outcomes side by side - just like the
+# Mass Compile and VIDiff reports.
+#
 # Usage (inside container, workspace mounted at /workspace):
 #   bash /workspace/.github/labview/run-vi-analyzer.sh \
-#       /workspace                          # WorkspaceRoot
-#       /report                             # ReportDir
+#       /workspace \
+#       /workspace/ci-out/vi-analyzer
+#
+# A single-VI re-run (the report's "Re-run analysis" on one VI) is driven by the
+# VIA_FILES (pipe-delimited repo paths) and VIA_CONFIG (a committed .viancfg)
+# environment variables, mirroring the Windows runner's -FilesFilter / -ConfigOverride.
 # =============================================================================
-set -euo pipefail
+set -uo pipefail
 
 WORKSPACE_ROOT="${1:-/workspace}"
 REPORT_DIR="${2:-/report}"
-DEFAULT_TEMPLATE="${WORKSPACE_ROOT}/.github/labview/via-configs/via-config-default.viancfg"
+CONFIG_MANIFEST="${3:-}"
+[ -n "$CONFIG_MANIFEST" ] || CONFIG_MANIFEST="$WORKSPACE_ROOT/.github/labview-ci.yml"
 
-# config.viAnalyzer support (Linux honors the DEFAULT config + the single-VI
-# re-run; per-subset RULES are a Windows-only feature, so Linux analyzes the whole
-# workspace with the default). These are set by the workflow.
-VIA_FILES="${VIA_FILES:-}"      # pipe-delimited repo-relative VIs (single-VI re-run)
-VIA_CONFIG="${VIA_CONFIG:-}"    # .viancfg to use for the re-run
-VIA_DEFAULT="${VIA_DEFAULT:-}"  # builtin | none | <.viancfg> (full-run default)
+FILES_FILTER="${VIA_FILES:-}"
+CONFIG_OVERRIDE="${VIA_CONFIG:-}"
 
-# When no default was passed, read config.viAnalyzer.default from the manifest
-# (same flat format the Configure dialog writes); the resolver below auto-detects
-# the first committed .viancfg if it is still empty.
-MANIFEST="${WORKSPACE_ROOT}/.github/labview-ci.yml"
-if [ -z "$VIA_DEFAULT" ] && [ -z "$VIA_FILES" ] && [ -f "$MANIFEST" ]; then
-  VIA_DEFAULT=$(awk '
-    /^  viAnalyzer:[[:space:]]*$/ {inv=1; next}
-    inv && /^    default:[[:space:]]*/ {sub(/^    default:[[:space:]]*/,""); gsub(/"/,""); gsub(/[[:space:]]/,""); print; exit}
-    inv && /^  [^[:space:]]/ {inv=0}
-    inv && /^[^[:space:]]/ {inv=0}
-  ' "$MANIFEST")
-fi
-
-# LabVIEWCLI is on PATH in the NI Linux container
+# LabVIEWCLI is on PATH in the NI Linux container; labviewprofull year varies by tag.
 LABVIEWCLI="LabVIEWCLI"
-# Discover labviewprofull dynamically (year varies by image tag)
-LABVIEW_EXE=$(find /usr/local/natinst -name "labviewprofull" 2>/dev/null | head -1)
-if [ -z "$LABVIEW_EXE" ]; then echo "ERROR: labviewprofull not found in /usr/local/natinst" >&2; exit 1; fi
-echo "Using LabVIEW: $LABVIEW_EXE"
+LABVIEW_EXE="$(find /usr/local/natinst -name 'labviewprofull' 2>/dev/null | head -1)"
+if [ -z "$LABVIEW_EXE" ]; then
+  echo "ERROR: labviewprofull not found in /usr/local/natinst" >&2
+  exit 1
+fi
 
 mkdir -p "$REPORT_DIR"
-
-CONFIG_FILE="$REPORT_DIR/via-config.viancfg"
-RESULTS_XML="$REPORT_DIR/via-results.xml"
 HTML_OUT="$REPORT_DIR/index.html"
 
-# Rewrite a .viancfg's <ItemsToAnalyze> block to a given set of absolute paths so a
-# config's TEST settings apply to a chosen scope (whole workspace, or the re-run's VIs).
-rewrite_items() {
-  local cfg="$1"; shift
-  local items_file="$REPORT_DIR/.via-items.xml"
-  {
-    printf '\t<ItemsToAnalyze>\n'
-    local p
-    for p in "$@"; do
-      printf '\t\t<Item>\n\t\t\t<Path>"%s"</Path>\n\t\t\t<Removed>FALSE</Removed>\n\t\t</Item>\n' "$p"
-    done
-    printf '\t</ItemsToAnalyze>\n'
-  } > "$items_file"
-  awk -v items_file="$items_file" '
-    /<ItemsToAnalyze>/ {
-      while ((getline line < items_file) > 0) print line
-      close(items_file)
-      if ($0 ~ /<\/ItemsToAnalyze>/) { next }   # single-line block, fully replaced
-      skip = 1; next
+echo "=== VI Analyzer (Linux) ==="
+echo "  Workspace : $WORKSPACE_ROOT"
+echo "  LabVIEW   : $LABVIEW_EXE"
+echo ""
+
+# --- config.viAnalyzer support ------------------------------------------------
+# Read the flat viAnalyzer.default value from .github/labview-ci.yml (the same
+# format the Configure dialog / reconfigure workflow write). Absent -> empty.
+read_via_default() {
+  [ -f "$CONFIG_MANIFEST" ] || return 0
+  awk '
+    /^  viAnalyzer:[[:space:]]*$/ { inv=1; next }
+    inv && /^    default:/ {
+      v=$0; sub(/^    default:[[:space:]]*/,"",v); gsub(/"/,"",v);
+      sub(/[[:space:]]*#.*$/,"",v); gsub(/^[[:space:]]+|[[:space:]]+$/,"",v);
+      print v; exit
     }
-    skip && /<\/ItemsToAnalyze>/ { skip = 0; next }
-    skip { next }
-    { print }
-  ' "$cfg" > "$cfg.tmp" && mv "$cfg.tmp" "$cfg"
+    inv && /^[[:space:]]{0,3}[^[:space:]]/ { exit }
+  ' "$CONFIG_MANIFEST"
 }
 
-# Resolve which .viancfg drives this run and whether to inject the full built-in
-# test suite (only when using the bundled default template).
-USE_BUILTIN_SUITE=0
-declare -a ITEM_PATHS=()
-if [ -n "$VIA_FILES" ]; then
-  if [ -z "$VIA_CONFIG" ]; then echo "ERROR: VIA_FILES set without VIA_CONFIG" >&2; exit 1; fi
-  CONFIG_SRC="${WORKSPACE_ROOT}/${VIA_CONFIG}"
-  IFS='|' read -r -a _via_files <<< "$VIA_FILES"
-  for f in "${_via_files[@]}"; do [ -n "$f" ] && ITEM_PATHS+=("${WORKSPACE_ROOT}/${f}"); done
-  RUN_MODE="single-VI re-run with ${VIA_CONFIG}"
-else
-  DEF="$VIA_DEFAULT"
-  if [ -z "$DEF" ]; then
-    DEF_REL=$(find "$WORKSPACE_ROOT" -type f -name '*.viancfg' 2>/dev/null | grep -Ev '/(\.github|ci-out|build)/' | sed "s|^${WORKSPACE_ROOT}/||" | sort | head -1)
-    if [ -n "$DEF_REL" ]; then DEF="$DEF_REL"; echo "Auto-detected default config: $DEF_REL"; fi
-  fi
-  # Linux ignores per-subset rules; default=none with no rules means "test nothing",
-  # but to avoid an empty/failed run we fall back to the built-in suite here.
-  if [ -z "$DEF" ] || [ "$DEF" = "builtin" ] || [ "$DEF" = "none" ]; then
-    CONFIG_SRC="$DEFAULT_TEMPLATE"; USE_BUILTIN_SUITE=1; ITEM_PATHS=("$WORKSPACE_ROOT")
-    RUN_MODE="full built-in suite"
-  else
-    CONFIG_SRC="${WORKSPACE_ROOT}/${DEF}"; ITEM_PATHS=("$WORKSPACE_ROOT")
-    RUN_MODE="default config ${DEF}"
-  fi
-fi
+# First committed .viancfg (repo-relative) outside CI tooling dirs -> the
+# pipeline's auto-default when a project committed a config but did not pick one.
+first_viancfg() {
+  find "$WORKSPACE_ROOT" -type f -name '*.viancfg' 2>/dev/null \
+    | grep -vE '/(\.github|actions|ci-out|build)/' \
+    | sort | head -1
+}
 
-echo "=== VI Analyzer (Linux) ==="
-echo "  Workspace  : $WORKSPACE_ROOT"
-echo "  Mode       : $RUN_MODE"
-echo "  Config src : $CONFIG_SRC"
+# Build a runtime .viancfg from a base config. On Linux, the committed config's
+# <RelativePath> entries use Windows \\ separators that Linux LabVIEW can't resolve;
+# sed converts them to /. The committed config already has <Path>"."</Path> in
+# <ItemsToAnalyze>, so no rewrite of that block is needed.
+build_folder_scope_config() {
+  # $1 base cfg, $2 out path
+  sed -e "s|__WORKSPACE_PATH__|$WORKSPACE_ROOT|g" \
+      -e '/<RelativePath>/ s|\\\\|/|g' "$1" > "$2"
+  echo "  Built $(basename "$2"): $(grep -c '<Selected>TRUE</Selected>' "$2") selected test(s)"
+}
 
-# Patch __WORKSPACE_PATH__ placeholder, then scope <ItemsToAnalyze> to ITEM_PATHS.
-sed "s|__WORKSPACE_PATH__|${WORKSPACE_ROOT}|g" "$CONFIG_SRC" > "$CONFIG_FILE"
-rewrite_items "$CONFIG_FILE" "${ITEM_PATHS[@]}"
+# Build a runtime .viancfg whose <ItemsToAnalyze> lists exactly the given VIs
+# as paths relative to the config file's directory (the only form LabVIEW accepts).
+build_scoped_items() {
+  # $1 base cfg, $2 out path; VI abs paths in the global VI_ABS[] array.
+  local config_dir items="" rel p
+  config_dir="$(dirname "$2")"
+  for p in "${VI_ABS[@]}"; do
+    rel="${p#"$config_dir"/}"
+    items="${items}\t\t<Item>\n\t\t\t<Path>\"$rel\"</Path>\n\t\t\t<Removed>FALSE</Removed>\n\t\t</Item>\n"
+  done
+  sed -e "s|__WORKSPACE_PATH__|$WORKSPACE_ROOT|g" \
+      -e '/<RelativePath>/ s|\\\\|/|g' "$1" > "$2.tmp"
+  awk -v items="$items" '
+    /<ItemsToAnalyze>/ { print "\t<ItemsToAnalyze>"; printf "%s", items; inblk=1; next }
+    /<\/ItemsToAnalyze>/ { print "\t</ItemsToAnalyze>"; inblk=0; next }
+    inblk { next }
+    { print }
+  ' "$2.tmp" > "$2"
+  rm -f "$2.tmp"
+  echo "  Built $(basename "$2"): ${#VI_ABS[@]} <Item>, $(grep -c '<Selected>TRUE</Selected>' "$2") selected test(s)"
+}
 
-# Build TestConfigData from installed VI Analyzer test LLBs so Linux runs the full
-# suite -- only for the bundled default template (a user .viancfg carries its own tests).
-LABVIEW_ROOT="$(dirname "$LABVIEW_EXE")"
-TEST_ROOT="$LABVIEW_ROOT/resource/dialog/VI Analyzer/tests"
-TEST_ENTRIES_FILE="$REPORT_DIR/via-tests.xml"
-TEST_COUNT=0
+# Native "Total Tests Run: N" count from a generated report (for the 0-tests
+# fallback). Missing/unparseable -> 0 (safe: forces the full directory suite).
+tests_in_report() {
+  [ -f "$1" ] || { echo 0; return; }
+  local n
+  n="$(grep -oE 'Total Tests Run[^0-9]*[0-9]+' "$1" | grep -oE '[0-9]+' | tail -1)"
+  echo "${n:-0}"
+}
 
-if [ "$USE_BUILTIN_SUITE" = "1" ] && [ -d "$TEST_ROOT" ]; then
-  : > "$TEST_ENTRIES_FILE"
-  while IFS= read -r llb; do
-    rel_path="${llb#${LABVIEW_ROOT}/}"
-    test_name="$(basename "$llb" .llb)"
-    cat >> "$TEST_ENTRIES_FILE" <<EOF
-		<Test>
-			<Name>"$test_name"</Name>
-			<Ranking>1</Ranking>
-			<MaxFailures>5</MaxFailures>
-			<BasePath>"$LABVIEW_ROOT"</BasePath>
-			<RelativePath>"$rel_path"</RelativePath>
-			<Selected>TRUE</Selected>
-			<Controls>
-			</Controls>
-		</Test>
-EOF
-    TEST_COUNT=$((TEST_COUNT+1))
-  done < <(find "$TEST_ROOT" -type f -name '*.llb' | sort)
+run_via() {
+  # $1 ConfigPath (a .viancfg OR a directory for the full built-in suite), $2 ReportPath
+  echo "  RunVIAnalyzer -ConfigPath '$1' -ReportPath '$2'"
+  "$LABVIEWCLI" \
+    -LogToConsole   TRUE \
+    -OperationName  RunVIAnalyzer \
+    -ConfigPath     "$1" \
+    -ReportPath     "$2" \
+    -ReportSaveType HTML \
+    -LabVIEWPath    "$LABVIEW_EXE" \
+    -Headless
+  return $?
+}
 
-  if [ "$TEST_COUNT" -gt 0 ]; then
-    awk -v tests_file="$TEST_ENTRIES_FILE" '
-      /<TestConfigData>/ {
-        print
-        while ((getline line < tests_file) > 0) print line
-        close(tests_file)
-        next
-      }
-      { print }
-    ' "$CONFIG_FILE" > "$CONFIG_FILE.tmp"
-    mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
-  fi
-fi
-
-echo "  Config out : $CONFIG_FILE"
-echo "  VIA tests  : $TEST_COUNT discovered at $TEST_ROOT"
-
-START=$(date +%s)
-
-"$LABVIEWCLI" \
-    -OperationName RunVIAnalyzer \
-    -LabVIEWPath "$LABVIEW_EXE" \
-    -ConfigPath "$CONFIG_FILE" \
-    -ReportPath "$RESULTS_XML" \
-    -Headless || EXIT_CODE=$?
-
-EXIT_CODE="${EXIT_CODE:-0}"
-END=$(date +%s)
-DURATION=$(( END - START ))
-
-echo ""
-echo "=== VI Analyzer finished (exit=$EXIT_CODE duration=${DURATION}s) ==="
-
-# Generate minimal HTML wrapper around the XML results
-XML_CONTENT="$(cat "$RESULTS_XML" 2>/dev/null || echo '(no results file)')"
-# Escape for HTML
-XML_HTML="$(echo "$XML_CONTENT" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')"
-REPORT_TS="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
-if [ "$EXIT_CODE" -eq 0 ]; then
-    STATUS="PASSED"; BADGE_COLOR="#2ea043"
-else
-    STATUS="FAILED"; BADGE_COLOR="#da3633"
-fi
-
-cat > "$HTML_OUT" <<HTML
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>VI Analyzer — CI_Playground</title>
-  <style>
-    *{box-sizing:border-box}
-    body{margin:0;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3}
-    .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin-bottom:16px}
-    h1{margin:0 0 12px;font-size:1.3em}
-    .badge{display:inline-block;padding:3px 10px;border-radius:4px;font-weight:700;font-size:.85em;color:#fff;background:${BADGE_COLOR}}
-    .meta{margin-top:10px;font-size:.82em;color:#8b949e}
-    pre{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:14px;font-size:.75em;white-space:pre-wrap;overflow-y:auto;max-height:65vh;margin:0}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>VI Analyzer — CI_Playground</h1>
-    <span class="badge">${STATUS}</span>
-    <div class="meta">Date: ${REPORT_TS} &nbsp;|&nbsp; Duration: ${DURATION}s</div>
-  </div>
-  <pre>${XML_HTML}</pre>
-</body>
-</html>
+write_placeholder_report() {
+  # $1 path, $2 message
+  cat > "$1" <<HTML
+<html><body><table>
+<tr><td>VIs Analyzed</td><td>0</td></tr>
+<tr><td>Total Tests Run</td><td>0</td></tr>
+<tr><td>Passed Tests</td><td>0</td></tr>
+<tr><td>Failed Tests</td><td>0</td></tr></table>
+<a name="fail"></a><p>$2</p></body></html>
 HTML
+}
 
-echo "HTML report → $HTML_OUT"
-exit "$EXIT_CODE"
+# --- Build the analysis plan --------------------------------------------------
+# A "pass" runs RunVIAnalyzer once. With no configuration this collapses to a
+# SINGLE directory-mode pass: passing the workspace DIRECTORY as -ConfigPath makes
+# LabVIEWCLI run the FULL DEFAULT VI Analyzer test set over every VI under it (the
+# invocation that produces the historical working reports). A committed default
+# .viancfg instead analyzes the whole PROJECT (AnalyzeProject) with that config's
+# tests; if it runs 0 tests we fall back to directory mode so the report is never
+# blank.
+CONFIG_ARG=""
+PASS_KIND=""
+FALLBACK_DIR=""
+
+if [ -n "$FILES_FILTER" ]; then
+  if [ -z "$CONFIG_OVERRIDE" ]; then
+    echo "ERROR: a single-VI re-run (VIA_FILES) requires VIA_CONFIG (a .viancfg)." >&2
+    exit 1
+  fi
+  VI_ABS=()
+  IFS='|' read -r -a _rel <<< "$FILES_FILTER"
+  for r in "${_rel[@]}"; do
+    r="$(printf '%s' "$r" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+    [ -n "$r" ] && VI_ABS+=("$WORKSPACE_ROOT/$r")
+  done
+  BASE_CFG="$WORKSPACE_ROOT/$CONFIG_OVERRIDE"
+  SCOPED="$(dirname "$BASE_CFG")/.lvci-runtime.viancfg"
+  build_scoped_items "$BASE_CFG" "$SCOPED"
+  CONFIG_ARG="$SCOPED"
+  PASS_KIND="rule"
+  echo "  Mode      : single-VI re-run (${#VI_ABS[@]} VI) with $CONFIG_OVERRIDE"
+else
+  DEF="$(read_via_default)"
+  if [ -z "$DEF" ]; then
+    AUTO="$(first_viancfg)"
+    AUTO="${AUTO#"$WORKSPACE_ROOT"/}"
+    if [ -n "$AUTO" ]; then
+      DEF="$AUTO"
+      echo "  Auto-detected default config: $AUTO"
+    else
+      DEF="builtin"
+    fi
+  fi
+  if [ "$DEF" = "builtin" ] || [ "$DEF" = "none" ]; then
+    CONFIG_ARG="$WORKSPACE_ROOT"
+    PASS_KIND="directory"
+    echo "  Mode      : full built-in suite (analyze workspace directory)"
+  else
+    BASE_CFG="$WORKSPACE_ROOT/$DEF"
+    if [ -f "$BASE_CFG" ]; then
+      # Scope = ".": the config dir is beside the committed .viancfg (e.g. example/),
+      # so LabVIEW recurses that folder and applies the custom tests to every VI there.
+      SCOPED="$(dirname "$BASE_CFG")/.lvci-runtime.viancfg"
+      build_folder_scope_config "$BASE_CFG" "$SCOPED"
+      CONFIG_ARG="$SCOPED"
+      PASS_KIND="project"
+      FALLBACK_DIR="$WORKSPACE_ROOT"
+      echo "  Mode      : custom config $DEF (scope: $(dirname "$BASE_CFG")) with directory fallback"
+      echo "  Config    : $SCOPED  (source: $BASE_CFG)"
+    else
+      CONFIG_ARG="$WORKSPACE_ROOT"
+      PASS_KIND="directory"
+      echo "  Mode      : full built-in suite (config not found; analyze workspace directory)"
+    fi
+  fi
+fi
+echo ""
+
+# --- Recompile the workspace to this image's LabVIEW version BEFORE analyzing --
+# The VI Analyzer only analyzes VIs already saved in the running LabVIEW's
+# version; VIs saved in an OLDER version are silently skipped, producing an empty
+# "0 VIs analyzed" report even though the VIs load fine. A headless MassCompile
+# upgrades every VI in place. Compile each top-level PROJECT folder individually,
+# EXCLUDING the CI's own tooling under .github (and .git/actions/ci-out/build) -
+# the vendored VI Browser render VIs there carry deps that only exist in their own
+# image and would fail the whole compile before reaching the project VIs.
+# Best-effort: a non-zero MassCompile must NOT block analysis (bash has no -e here,
+# so a failing LabVIEWCLI just logs its exit code and we continue).
+echo "=== Pre-analysis MassCompile (upgrade VIs to image LabVIEW version) ==="
+pre_start=$(date +%s)
+compiled_any=false
+for d in "$WORKSPACE_ROOT"/*/; do
+  [ -d "$d" ] || continue
+  name="$(basename "$d")"
+  case "$name" in
+    .git|.github|actions|ci-out|build) continue ;;
+  esac
+  compiled_any=true
+  "$LABVIEWCLI" \
+    -LogToConsole       TRUE \
+    -OperationName      MassCompile \
+    -DirectoryToCompile "$d" \
+    -LabVIEWPath        "$LABVIEW_EXE" \
+    -Headless 2>&1
+  echo "  MassCompile '$name' exit=$?"
+done
+if [ "$compiled_any" = false ]; then
+  "$LABVIEWCLI" \
+    -LogToConsole       TRUE \
+    -OperationName      MassCompile \
+    -DirectoryToCompile "$WORKSPACE_ROOT" \
+    -LabVIEWPath        "$LABVIEW_EXE" \
+    -Headless 2>&1
+  echo "  MassCompile '.' exit=$?"
+fi
+echo "  Pre-analysis MassCompile duration=$(( $(date +%s) - pre_start ))s"
+echo ""
+
+# --- Run the analysis pass ----------------------------------------------------
+START=$(date +%s)
+echo "=== VI Analyzer pass ($PASS_KIND) ==="
+run_via "$CONFIG_ARG" "$HTML_OUT"
+EXIT_CODE=$?
+echo "  pass exit=$EXIT_CODE"
+
+# A project-config pass that ran 0 tests (e.g. a .viancfg whose ItemsToAnalyze is
+# empty) falls back to the full directory-mode suite so the report is never blank.
+if [ "$PASS_KIND" = "project" ]; then
+  N="$(tests_in_report "$HTML_OUT")"
+  if [ "$N" = "0" ]; then
+    echo "  Project pass ran 0 tests; falling back to the full directory suite"
+    run_via "$FALLBACK_DIR" "$HTML_OUT"
+    EXIT_CODE=$?
+    echo "  fallback pass exit=$EXIT_CODE"
+  fi
+fi
+
+DURATION=$(( $(date +%s) - START ))
+echo ""
+echo "=== VI Analyzer finished (duration=${DURATION}s) ==="
+
+if [ ! -f "$HTML_OUT" ]; then
+  write_placeholder_report "$HTML_OUT" "No VI Analyzer report was generated."
+  echo "No report produced; wrote a placeholder report."
+fi
+
+# Exit code 3 = analysis ran but found rule failures -> success (failures are in
+# the report). Any other non-zero from the pass is a real error.
+if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne 3 ]; then
+  exit "$EXIT_CODE"
+fi
+exit 0
