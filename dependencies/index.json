@@ -4,6 +4,13 @@
   "sha": "b84a83fea963ee8d447a18f7cc7d4d18fba24a52",
   "revisions": [
     {
+      "sha": "4cb3616f2862a2cc3c3804f1109f6cdade832a2e",
+      "short": "4cb3616",
+      "message": "ci: adopt LabVIEW CI tooling v4.16.3 (config + scripts; 25 workflow file(s) deferred)",
+      "author": "github-actions[bot]",
+      "date": "2026-10-06T00:08:55Z"
+    },
+    {
       "sha": "b84a83fea963ee8d447a18f7cc7d4d18fba24a52",
       "short": "b84a83f",
       "message": "ci: adopt LabVIEW CI tooling v4.4.12 (config + scripts; 20 workflow file(s) deferred)",
